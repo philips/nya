@@ -1,16 +1,10 @@
 'use strict';
 
-angular.module('etcdApp', ['etcdResource'])
+var etcdApp = angular.module('etcdApp', ['etcdResource', 'timeRelative'])
   .config(function ($routeProvider) {
     $routeProvider
-      .when('/', {
-        redirectTo: '/keys'
-      })
-      .when('/keys', {
+      .when('/:path', {
         templateUrl: 'views/main.html',
         controller: 'MainCtrl'
       })
-      .otherwise({
-        redirectTo: '/'
-      });
   });

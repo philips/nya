@@ -12,8 +12,9 @@
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
         <!-- build:css(.tmp) styles/main.css -->
-        <link rel="stylesheet" href="styles/bootstrap.css">
-        <link rel="stylesheet" href="styles/main.css">
+        <link rel="stylesheet" href="styles/etcd-widgets.css">
+        <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,400italic,600,700,900" rel="stylesheet" type="text/css">
+        <link href="http://fonts.googleapis.com/css?family=Source+Code+Pro:400,500,600,700" rel="stylesheet" type="text/css">
         <!-- endbuild -->
 </head>
   <body ng-app="etcdApp">
@@ -27,13 +28,91 @@
     <![endif]-->
 
     <!-- Add your site or application content here -->
-    <div class="container" ng-view=""></div>
+    <div class="etcd-container etcd-browser etcd-single-col etcd-preview-hide" style="width: 500px; height: 400px; margin-bottom: 40px;">
+        <div class="etcd-popover">
+            <div class="etcd-popover-notch"></div>
+            <div class="etcd-popover-content">
+                Overwrite this value?
+            </div>
+            <div class="etcd-popover-confirm">
+                <button class="etcd-button etcd-button-small etcd-button-primary etcd-confirm">Overwrite</button>
+            </div>
+        </div>
+        <div class="etcd-header solid">
+            <a class="etcd-back">
+                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                preserveAspectRatio="xMinYMin" viewBox="0 0 73.356 61" enable-background="new 0 0 73.356 61" xml:space="preserve">
+                <path d="M5.27,33.226l22.428,22.428c1.562,1.562,4.095,1.562,5.657,0c1.562-1.562,1.562-4.095,0-5.657L17.77,34.413h48.514
+                c2.209,0,4-1.791,4-4s-1.791-4-4-4H17.749l15.604-15.582c1.563-1.561,1.565-4.094,0.004-5.657C32.576,4.391,31.552,4,30.527,4
+                c-1.023,0-2.046,0.39-2.827,1.169L5.272,27.567c-0.751,0.75-1.173,1.768-1.173,2.829C4.098,31.458,4.52,32.476,5.27,33.226z"/>
+                </svg>
+            </a>
+            <a class="etcd-add">
+                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                preserveAspectRatio="xMinYMin" viewBox="0 0 72.556 61" enable-background="new 0 0 72.556 61" xml:space="preserve">
+                <path d="M57.715,26.588h-8.535h-23h-8.535c-2.209,0-4,1.791-4,4c0,2.209,1.791,4,4,4h8.556H49.16h8.556c2.209,0,4-1.791,4-4
+                C61.715,28.379,59.924,26.588,57.715,26.588z"/>
+                <path d="M33.681,10.553v8.535v23v8.535c0,2.209,1.791,4,4,4c2.209,0,4-1.791,4-4v-8.556V19.109v-8.556c0-2.209-1.791-4-4-4
+                C35.472,6.553,33.681,8.344,33.681,10.553z"/>
+                </svg>
+            </a>
+            <div class="etcd-browser-path">
+                <input type="text" value="{{$location.path()}}" tabindex="888" />
+            </div>
+            <button class="etcd-button etcd-button-small etcd-button-primary etcd-save">Save</button>
+        </div>
+        <div class="etcd-body" style="height: 361px">
+            <div class="etcd-list" ng-view="etcd-list">
+                
+            </div>
+            <div class="etcd-preview etcd-hide">
+                <textarea placeholder="Enter a key name above and the value here" tabindex="888">
+    [{
+        "action":"GET",
+        "key":"/domains/buildafund",
+        "value":"[\"1.1.1.1:1111\",\"2.2.2.2:2222\",\"3.3.3.3:3333\"]",
+        "index":12
+    },
+    {
+        "action":"GET",
+        "key":"/domains/buildafund",
+        "value":"[\"1.1.1.1:1111\",\"2.2.2.2:2222\",\"3.3.3.3:3333\",\"4.4.4.4:4444\"]",
+        "index":12
+    },
+    {
+        "action":"GET",
+        "key":"/domains/buildafund",
+        "value":"[\"1.1.1.1:1111\",\"2.2.2.2:2222\",\"3.3.3.3:3333\"]",
+        "index":12
+    },
+    {
+        "action":"GET",
+        "key":"/domains/falloutweb",
+        "value":"[\"3.3.3.3:3333\",\"4.4.4.4:4444\"]",
+        "index":12
+    }]
+                </textarea>
+                <div class="etcd-empty">
+                    <div class="etcd-empty-message">No key selected.</div>
+                </div>
+                <div class="etcd-dialog">
+                    <div class="etcd-dialog-message">
+                        Save and replicate this change?
+                    </div>
+                    <div class="etcd-dialog-buttons">
+                        <button class="etcd-button etcd-button-primary">Save Changes</button>
+                        <a href="javascript:void(0);">Cancel</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="bower_components/jquery/jquery.js"></script>
     <script src="bower_components/angular/angular.js"></script>
 
         <!-- build:js scripts/plugins.js -->
-        <script src="bower_components/bootstrap-sass/js/bootstrap-affix.js"></script>
+        <!-- <script src="bower_components/bootstrap-sass/js/bootstrap-affix.js"></script>
         <script src="bower_components/bootstrap-sass/js/bootstrap-alert.js"></script>
         <script src="bower_components/bootstrap-sass/js/bootstrap-dropdown.js"></script>
         <script src="bower_components/bootstrap-sass/js/bootstrap-tooltip.js"></script>
@@ -45,19 +124,62 @@
         <script src="bower_components/bootstrap-sass/js/bootstrap-carousel.js"></script>
         <script src="bower_components/bootstrap-sass/js/bootstrap-scrollspy.js"></script>
         <script src="bower_components/bootstrap-sass/js/bootstrap-collapse.js"></script>
-        <script src="bower_components/bootstrap-sass/js/bootstrap-tab.js"></script>
+        <script src="bower_components/bootstrap-sass/js/bootstrap-tab.js"></script> -->
         <!-- endbuild -->
 
         <!-- build:js scripts/modules.js -->
+        <script src="bower_components/angular-resource/angular-resource.js"></script>
         <script src="bower_components/angular-resource/angular-resource.js"></script>
         <script src="bower_components/angular-cookies/angular-cookies.js"></script>
         <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
         <!-- endbuild -->
 
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
+        <script src="scripts/moment.min.js"></script>
+        <script src="scripts/ng-time-relative.min.js"></script>
         <script src="scripts/app.js"></script>
         <script src="scripts/etcd.js"></script>
         <script src="scripts/controllers/main.js"></script>
         <!-- endbuild -->
+
+    <script type="text/javascript">
+    $(document).ready(function() {
+        
+        $(".etcd-list td a").on('click', function() {
+            $(".etcd-list .etcd-selected").removeClass("etcd-selected");
+            $(this).closest("tr").addClass("etcd-selected");
+            $(this).parents(".etcd-container").removeClass("etcd-preview-hide").addClass("etcd-preview-reveal");
+            input = $(this).parents(".etcd-container").find(".etcd-browser-path").find("input");
+            input.val(input.val() + $(this).text());
+        });
+
+        $(".etcd-back").on('click', function() {
+            $(".etcd-list .etcd-selected").removeClass("etcd-selected");
+            $(this).parents(".etcd-container").removeClass("etcd-preview-reveal").addClass("etcd-preview-hide");
+            $(this).parents(".etcd-container").removeClass("etcd-save-reveal").addClass("etcd-save-hide");
+            $(this).parents(".etcd-container").find(".etcd-browser-path").find("input").val("/v1/");
+        });
+
+        $(".etcd-preview pre, .etcd-preview textarea").on('keydown', function() {
+            $(this).parents(".etcd-container").removeClass("etcd-hide-preview").addClass("etcd-reveal-preview");
+            $(this).parents(".etcd-container").removeClass("etcd-save-hide").addClass("etcd-save-reveal");
+        });
+
+        $(".etcd-save").on('click', function() {
+            $(".etcd-list .etcd-selected").removeClass("etcd-selected");
+            $(this).parents(".etcd-container").find(".etcd-browser-path").find("input").val("/v1/");
+            $(this).parents(".etcd-container").removeClass("etcd-preview-reveal").addClass("etcd-preview-hide");
+            $(this).parents(".etcd-container").removeClass("etcd-save-reveal").addClass("etcd-save-hide");
+        });
+
+        $(".etcd-add").on('click', function() {
+            $(this).parents(".etcd-container").find(".etcd-browser-path").find("input").val("/v1/").focus();
+            $(this).parents(".etcd-container").find("textarea").val("");
+            $(this).parents(".etcd-container").removeClass("etcd-preview-hide").addClass("etcd-preview-reveal");
+            $(this).parents(".etcd-container").removeClass("etcd-save-hide").addClass("etcd-save-reveal");
+        });
+
+      });
+    </script>
 </body>
 </html>
