@@ -6,7 +6,6 @@ var etcdApp = angular.module('etcdApp', ['ngRoute', 'etcdResource', 'timeRelativ
       .when('/', {
         redirectTo: '/v1/keys/'
       })
-      
       .otherwise({
         templateUrl: 'views/main.html',
         controller: 'MainCtrl'
