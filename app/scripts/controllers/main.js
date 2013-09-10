@@ -7,6 +7,7 @@ angular.module('etcdApp')
 
   	var etcd_path = 'http://localhost:4001' + $location.path();
   	console.log(etcd_path);
+  	//console.log($routeParams);
     $http.get(etcd_path).success(function(data) {
        $scope.list = data;
        console.log(data);
