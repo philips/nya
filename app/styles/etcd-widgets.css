@@ -264,6 +264,11 @@ body {
 					fill: #eee;
 				}
 
+				.etcd-body .etcd-list .etcd-selected .etcd-delete svg {
+					height: 20px;
+					fill: #ddd;
+				}
+
 				.etcd-body .etcd-list .etcd-delete:hover svg {
 					cursor: pointer;
 					fill: #ff0000;

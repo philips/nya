@@ -146,6 +146,19 @@ angular.module('etcdApp').directive('ngKeydown', function() {
     };
 });
 
+angular.module('etcdApp').directive('highlight', ['$location', function(location) {
+    return {
+        restrict: 'A',
+        link: function(scope, element, attrs, controller) {
+            if("#" + scope.etcd_path == attrs.href) {
+            	element.parent().parent().addClass("etcd-selected")
+            }
+        }
+
+    };
+
+    }]);
+
 moment.lang('en', {
     relativeTime : {
         future: "Expires in %s",
