@@ -43,7 +43,7 @@
 			    <tr ng-repeat="key in list">
 			        <td><a ng-class="{true:'directory'}[key.dir]" href="#/v1/keys{{key.key}}">{{key.key}}</a></td>
 			        <td ng-switch on="!!key.expiration" class="etcd-ttl">
-					    <div ng-switch-when="true">Expires <time relative datetime="{{key.expiration.substring(0, key.expiration.lastIndexOf('-'))}}"></time></div>
+					    <div ng-switch-when="true"><time relative datetime="{{key.expiration.substring(0, key.expiration.lastIndexOf('-'))}}"></time></div>
 					    <div ng-switch-default class="etcd-ttl-none">&mdash;</div>
 					</td>
 			        <td>
