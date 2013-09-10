@@ -1,4 +1,5 @@
-<div class="etcd-popover">
+<div class="etcd-container etcd-browser {{columns}} {{preview}} {{save}}">
+    <div class="etcd-popover">
         <div class="etcd-popover-notch"></div>
         <div class="etcd-popover-content">
             Overwrite this value?
@@ -8,7 +9,7 @@
         </div>
     </div>
     <div class="etcd-header solid">
-        <a class="etcd-back">
+        <a class="etcd-back" ng-click="back()">
             <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
             preserveAspectRatio="xMinYMin" viewBox="0 0 73.356 61" enable-background="new 0 0 73.356 61" xml:space="preserve">
             <path d="M5.27,33.226l22.428,22.428c1.562,1.562,4.095,1.562,5.657,0c1.562-1.562,1.562-4.095,0-5.657L17.77,34.413h48.514
@@ -26,9 +27,9 @@
             </svg>
         </a>
         <div class="etcd-browser-path">
-            <input type="text" value="{{$location.path()}}" tabindex="888" />
+            <input type="text" ng-model="etcd_path" ng-enter="sync_location()" tabindex="888" />
         </div>
-        <button class="etcd-button etcd-button-small etcd-button-primary etcd-save">Save</button>
+        <button class="etcd-button etcd-button-small etcd-button-primary etcd-save" ng-click="save_data()">Save</button>
     </div>
     <div class="etcd-body" style="height: 361px">
         <div class="etcd-list">
@@ -62,32 +63,8 @@
 			</tbody>
 			</table>
         </div>
-        <div class="etcd-preview etcd-hide">
-            <textarea placeholder="Enter a key name above and the value here" tabindex="888">
-[{
-    "action":"GET",
-    "key":"/domains/buildafund",
-    "value":"[\"1.1.1.1:1111\",\"2.2.2.2:2222\",\"3.3.3.3:3333\"]",
-    "index":12
-},
-{
-    "action":"GET",
-    "key":"/domains/buildafund",
-    "value":"[\"1.1.1.1:1111\",\"2.2.2.2:2222\",\"3.3.3.3:3333\",\"4.4.4.4:4444\"]",
-    "index":12
-},
-{
-    "action":"GET",
-    "key":"/domains/buildafund",
-    "value":"[\"1.1.1.1:1111\",\"2.2.2.2:2222\",\"3.3.3.3:3333\"]",
-    "index":12
-},
-{
-    "action":"GET",
-    "key":"/domains/falloutweb",
-    "value":"[\"3.3.3.3:3333\",\"4.4.4.4:4444\"]",
-    "index":12
-}]
+        <div class="etcd-preview">
+            <textarea placeholder="Enter a key name above and the value here" ng-model="single_value" tabindex="888" ng-keypress="show_save()">
             </textarea>
             <div class="etcd-empty">
                 <div class="etcd-empty-message">No key selected.</div>
@@ -103,3 +80,4 @@
             </div>
         </div>
     </div>
+</div>

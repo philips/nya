@@ -278,6 +278,7 @@
 			position: absolute;
 			top: 0px;
 			left: 3px;
+			display: none;
 		}
 
 		.etcd-container.etcd-browser.etcd-preview-reveal .etcd-back {
@@ -285,7 +286,7 @@
 		}
 
 		.etcd-container.etcd-browser.etcd-preview-hide .etcd-back {
-			display: none;
+			display: block;
 		}
 
 			.etcd-back svg {
@@ -310,6 +311,7 @@
 			position: absolute;
 			top: 0px;
 			left: 3px;
+			display: none;
 		}
 
 		.etcd-container.etcd-browser.etcd-preview-reveal .etcd-add {
@@ -317,7 +319,7 @@
 		}
 
 		.etcd-container.etcd-browser.etcd-preview-hide .etcd-add {
-			display: block;
+			display: none;
 		}
 
 			.etcd-add svg {
@@ -387,7 +389,6 @@
 		top: 0px;
 		box-sizing: border-box;
 		-moz-box-sizing: border-box;
-		transition-property: all;
 		transition-duration: 150ms;
 		transition-timing-function: ease-in-out;
 		background-color: #fff;
@@ -396,7 +397,7 @@
 	}
 
 	.etcd-container.etcd-browser .etcd-preview pre, .etcd-container.etcd-browser .etcd-preview textarea {
-		padding: 20px 0px 20px 20px;
+		padding: 20px 20px 20px 20px;
 		margin: 0px;
 		font-family: Consolas, "Liberation Mono", Courier, monospace;
 		transition-property: all;
