@@ -1,3 +1,6 @@
+body {
+	margin: 0px;
+}
 .etcd-container {
 	background-color: #fff;
 	border: 1px solid #ddd;
@@ -170,7 +173,16 @@
 			}
 
 			.etcd-body table tbody .etcd-ttl {
+				font-size: 13px;
+			}
 
+			.etcd-body table tbody .etcd-ttl .etcd-ttl-none {
+				color: #999;
+				font-weight: 100;
+			}
+
+			.etcd-body table .etcd-actions-header {
+				width: 30px;
 			}
 
 		.etcd-body table thead td:first-child, .etcd-body table tbody td:first-child {
@@ -223,9 +235,6 @@
 			-moz-box-sizing: border-box;
 			overflow: auto;
 			height: 100%;
-			transition-property: all;
-			transition-duration: 150ms;
-			transition-timing-function: ease-in-out;
 			position: absolute;
 		}
 
@@ -248,7 +257,6 @@
 				vertical-align: middle;
 				margin: 0px;
 				display: inline-block;
-				1visibility: hidden;
 			}
 
 				.etcd-body .etcd-list .etcd-delete svg {
@@ -342,9 +350,6 @@
 			right: 0px;
 			top: 0;
 			margin: 6px 5px 6px 5px;
-			transition-property: all;
-			transition-duration: 150ms;
-			transition-timing-function: ease-in-out;
 		}
 
 		.etcd-container.etcd-browser .etcd-header .etcd-browser-path input {
@@ -359,9 +364,6 @@
 			width: 54px;
 			right: -55px;
 			margin: 6px 0;
-			transition-property: all;
-			transition-duration: 150ms;
-			transition-timing-function: ease-in-out;
 		}
 
 		.etcd-container.etcd-browser.etcd-save-reveal .etcd-header .etcd-save {
@@ -389,8 +391,6 @@
 		top: 0px;
 		box-sizing: border-box;
 		-moz-box-sizing: border-box;
-		transition-duration: 150ms;
-		transition-timing-function: ease-in-out;
 		background-color: #fff;
 		width: 100%;
 		border-left: 1px solid #ddd;
@@ -400,9 +400,6 @@
 		padding: 20px 20px 20px 20px;
 		margin: 0px;
 		font-family: Consolas, "Liberation Mono", Courier, monospace;
-		transition-property: all;
-		transition-duration: 150ms;
-		transition-timing-function: ease-in-out;
 		height: 100%;
 		width: 100%;
 		white-space: pre-wrap;
@@ -434,58 +431,63 @@
 	}
 
 	/* Single Column Positioning */
-	.etcd-container.etcd-browser.etcd-single-col .etcd-list {
-		width: 100%;
-	}
-
-		.etcd-container.etcd-browser.etcd-single-col.etcd-preview-reveal .etcd-list {
-			left: -100%;
+	@media (max-width: 700px) {
+		.etcd-container.etcd-browser .etcd-list {
+			width: 100%;
 		}
 
-		.etcd-container.etcd-browser.etcd-single-col.etcd-preview-hide .etcd-list {
-			left: auto;
-		}
+			.etcd-container.etcd-browser.etcd-preview-reveal .etcd-list {
+				left: -100%;
+			}
 
-	.etcd-container.etcd-browser.etcd-single-col .etcd-preview {
-		left: 100%;
-	}
+			.etcd-container.etcd-browser.etcd-preview-hide .etcd-list {
+				left: auto;
+			}
 
-		.etcd-container.etcd-browser.etcd-single-col.etcd-preview-reveal .etcd-preview {
-			left: -1px;
-			display: block;
-		}
-
-		.etcd-container.etcd-browser.etcd-single-col.etcd-preview-hide .etcd-preview {
+		.etcd-container.etcd-browser .etcd-preview {
 			left: 100%;
-			display: block;
 		}
+
+			.etcd-container.etcd-browser.etcd-preview-reveal .etcd-preview {
+				left: -1px;
+				display: block;
+			}
+
+			.etcd-container.etcd-browser.etcd-preview-hide .etcd-preview {
+				left: 100%;
+				display: block;
+			}
+	}
+	
 
 	/* Double Column Positioning */
-	.etcd-container.etcd-browser.etcd-double-col .etcd-list {
-		width: 50%;
+	@media (min-width: 700px) {
+	.etcd-container.etcd-browser .etcd-list {
+			width: 50%;
+		}
+
+		.etcd-container.etcd-browser .etcd-preview {
+			left: 50%;
+			width: 50%;
+		}
+
+			.etcd-container.etcd-browser.etcd-preview-reveal .etcd-preview {
+				left: 50%; /* does nothing */
+			}
+
+			.etcd-container.etcd-browser.etcd-preview-reveal .etcd-preview .etcd-empty {
+				display: none;
+			}
+
+			.etcd-container.etcd-browser.etcd-preview-hide .etcd-preview {
+				left: 50%; /* does nothing */
+			}
+
+			.etcd-container.etcd-browser.etcd-preview-hide .etcd-preview .etcd-empty {
+				display: block;
+			}
+
+			.etcd-container.etcd-browser.etcd-preview-hide .etcd-preview pre, .etcd-container.etcd-browser.etcd-preview-hide .etcd-preview textarea {
+				display: none;
+			}
 	}
-
-	.etcd-container.etcd-browser.etcd-double-col .etcd-preview {
-		left: 50%;
-		width: 50%;
-	}
-
-		.etcd-container.etcd-browser.etcd-double-col.etcd-preview-reveal .etcd-preview {
-			left: 50%; /* does nothing */
-		}
-
-		.etcd-container.etcd-browser.etcd-double-col.etcd-preview-reveal .etcd-preview .etcd-empty {
-			display: none;
-		}
-
-		.etcd-container.etcd-browser.etcd-double-col.etcd-preview-hide .etcd-preview {
-			left: 50%; /* does nothing */
-		}
-
-		.etcd-container.etcd-browser.etcd-double-col.etcd-preview-hide .etcd-preview .etcd-empty {
-			display: block;
-		}
-
-		.etcd-container.etcd-browser.etcd-double-col.etcd-preview-hide .etcd-preview pre, .etcd-container.etcd-browser.etcd-double-col.etcd-preview-hide .etcd-preview textarea {
-			display: none;
-		}

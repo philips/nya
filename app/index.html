@@ -9,100 +9,26 @@
     <title>etcd dashboard</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
-    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-
-        <!-- build:css(.tmp) styles/main.css -->
-        <link rel="stylesheet" href="styles/etcd-widgets.css">
-        <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,400italic,600,700,900" rel="stylesheet" type="text/css">
-        <link href="http://fonts.googleapis.com/css?family=Source+Code+Pro:400,500,600,700" rel="stylesheet" type="text/css">
-        <!-- endbuild -->
+    <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,400italic,600,700,900" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Source+Code+Pro:400,500,600,700" rel="stylesheet" type="text/css">
+    <style>
+        body {
+            padding: 30px;
+            margin: 0px;
+        }
+        h1 {
+            font-family: "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-weight: 400;
+            margin: 0px 0px 20px 0px;
+            padding: 0px;
+        }
+        iframe {
+            border: none;
+        }
+    </style>
 </head>
-  <body ng-app="etcdApp">
-    <!--[if lt IE 7]>
-      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-    <![endif]-->
-
-    <!--[if lt IE 9]>
-      <script src="bower_components/es5-shim/es5-shim.js"></script>
-      <script src="bower_components/json3/lib/json3.min.js"></script>
-    <![endif]-->
-
-    <!-- Add your site or application content here -->
-    <div id="etd_browser" style="width: 500px; height: 400px; margin-bottom: 40px;" ng-view="etcd">
-    </div>
-
-    <script src="bower_components/jquery/jquery.js"></script>
-    <script src="bower_components/angular/angular.js"></script>
-
-        <!-- build:js scripts/plugins.js -->
-        <!-- <script src="bower_components/bootstrap-sass/js/bootstrap-affix.js"></script>
-        <script src="bower_components/bootstrap-sass/js/bootstrap-alert.js"></script>
-        <script src="bower_components/bootstrap-sass/js/bootstrap-dropdown.js"></script>
-        <script src="bower_components/bootstrap-sass/js/bootstrap-tooltip.js"></script>
-        <script src="bower_components/bootstrap-sass/js/bootstrap-modal.js"></script>
-        <script src="bower_components/bootstrap-sass/js/bootstrap-transition.js"></script>
-        <script src="bower_components/bootstrap-sass/js/bootstrap-button.js"></script>
-        <script src="bower_components/bootstrap-sass/js/bootstrap-popover.js"></script>
-        <script src="bower_components/bootstrap-sass/js/bootstrap-typeahead.js"></script>
-        <script src="bower_components/bootstrap-sass/js/bootstrap-carousel.js"></script>
-        <script src="bower_components/bootstrap-sass/js/bootstrap-scrollspy.js"></script>
-        <script src="bower_components/bootstrap-sass/js/bootstrap-collapse.js"></script>
-        <script src="bower_components/bootstrap-sass/js/bootstrap-tab.js"></script> -->
-        <!-- endbuild -->
-
-        <!-- build:js scripts/modules.js -->
-        <script src="bower_components/angular-resource/angular-resource.js"></script>
-        <script src="bower_components/angular-route/angular-route.js"></script>
-        <script src="bower_components/angular-cookies/angular-cookies.js"></script>
-        <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
-        <!-- endbuild -->
-
-        <!-- build:js({.tmp,app}) scripts/scripts.js -->
-        <script src="scripts/moment.min.js"></script>
-        <script src="scripts/ng-time-relative.min.js"></script>
-        <script src="scripts/app.js"></script>
-        <script src="scripts/etcd.js"></script>
-        <script src="scripts/controllers/main.js"></script>
-        <!-- endbuild -->
-
-    <script type="text/javascript">
-    $(document).ready(function() {
-        
-        $(".etcd-list td a").on('click', function() {
-            $(".etcd-list .etcd-selected").removeClass("etcd-selected");
-            $(this).closest("tr").addClass("etcd-selected");
-            $(this).parents(".etcd-container").removeClass("etcd-preview-hide").addClass("etcd-preview-reveal");
-            input = $(this).parents(".etcd-container").find(".etcd-browser-path").find("input");
-            input.val(input.val() + $(this).text());
-        });
-
-        $(".etcd-back").on('click', function() {
-            $(".etcd-list .etcd-selected").removeClass("etcd-selected");
-            $(this).parents(".etcd-container").removeClass("etcd-preview-reveal").addClass("etcd-preview-hide");
-            $(this).parents(".etcd-container").removeClass("etcd-save-reveal").addClass("etcd-save-hide");
-            $(this).parents(".etcd-container").find(".etcd-browser-path").find("input").val("/v1/");
-        });
-
-        $(".etcd-preview pre, .etcd-preview textarea").on('keydown', function() {
-            $(this).parents(".etcd-container").removeClass("etcd-hide-preview").addClass("etcd-reveal-preview");
-            $(this).parents(".etcd-container").removeClass("etcd-save-hide").addClass("etcd-save-reveal");
-        });
-
-        $(".etcd-save").on('click', function() {
-            $(".etcd-list .etcd-selected").removeClass("etcd-selected");
-            $(this).parents(".etcd-container").find(".etcd-browser-path").find("input").val("/v1/");
-            $(this).parents(".etcd-container").removeClass("etcd-preview-reveal").addClass("etcd-preview-hide");
-            $(this).parents(".etcd-container").removeClass("etcd-save-reveal").addClass("etcd-save-hide");
-        });
-
-        $(".etcd-add").on('click', function() {
-            $(this).parents(".etcd-container").find(".etcd-browser-path").find("input").val("/v1/").focus();
-            $(this).parents(".etcd-container").find("textarea").val("");
-            $(this).parents(".etcd-container").removeClass("etcd-preview-hide").addClass("etcd-preview-reveal");
-            $(this).parents(".etcd-container").removeClass("etcd-save-hide").addClass("etcd-save-reveal");
-        });
-
-      });
-    </script>
+<body>
+    <h1>etcd Dashboard</h1>
+    <iframe src="browser.html" style="width: 100%; height: 450px;"></iframe>
 </body>
 </html>

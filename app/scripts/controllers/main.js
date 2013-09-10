@@ -6,16 +6,35 @@ angular.module('etcdApp')
   	delete $http.defaults.headers.common['X-Requested-With'];
 
   	$scope.save = "etcd-save-hide";
-  	$scope.columns = "etcd-single-col";
   	$scope.preview = "etcd-preview-hide";
   	$scope.etcd_path = "/v1/keys/";
+  	$scope.enable_back = true;
 
-  	//var etcd_path = 'http://localhost:4001' + $location.path();
   	$scope.etcd_path = $location.path();
 
   	//read from path when it changes
   	$scope.$watch('etcd_path', function() {
-  		read($scope.etcd_path);
+
+  		var current_path = $scope.etcd_path.split("/");
+    	var parent_path;
+    	//empty strings that used to be /
+    	current_path = current_path.filter(function(v){return v!==''});
+    	//remove last item
+    	current_path.pop();
+    	//reconstruct path
+    	parent_path = current_path.join("/");
+
+    	$scope.etcd_parent_path = "/" + parent_path + "/";
+
+  		//load data
+  		read();
+
+  		//disable back button if at root (/v1/keys/)
+  		if($scope.etcd_path == "/v1/keys/") {
+  			$scope.enable_back = false;
+    	} else {
+    		$scope.enable_back = true;
+    	}
   	});
 
   	//make requests
@@ -30,6 +49,9 @@ angular.module('etcdApp')
 	    		console.log("single value");
 	    		$scope.single_value = data.value;
 	    		$scope.preview = "etcd-preview-reveal";
+	    		$http.get('http://localhost:4001' + $scope.etcd_parent_path).success(function(data) {
+	    			$scope.list = data;
+	    		});
 	    	}
 	    });
 	}
@@ -46,7 +68,9 @@ angular.module('etcdApp')
     	//reconstruct path
     	new_path = path.join("/");
     	//record new path if it doesn't back up too much
-    	if(new_path != "v1") $scope.etcd_path = "/" + new_path + "/";
+    	if(new_path != "v1") {
+    		$scope.etcd_path = "/" + new_path + "/";
+    	}
   		$location.path($scope.etcd_path);
     }
 
@@ -77,6 +101,25 @@ angular.module('etcdApp')
             console.log(status);
         });
     }
+
+    $scope.delete_key = function() {
+    	//TODO: add loader
+    	/*$http({
+            url: 'http://localhost:4001' + $scope.etcd_path,
+            method: "DELETE",
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        }).success(function (data, status, headers, config) {
+        	//TODO: remove loader
+            console.log("success");
+            $scope.save = "etcd-save-hide";
+            $scope.preview = "etcd-preview-hide";
+            $scope.back();
+        }).error(function (data, status, headers, config) {
+        	//TODO: remove loader
+        	//TODO: show popover with error
+            console.log(status);
+        });*/
+    }
 })
 
 angular.module('etcdApp').directive('ngEnter', function() {
@@ -93,7 +136,7 @@ angular.module('etcdApp').directive('ngEnter', function() {
     };
 });
 
-angular.module('etcdApp').directive('ngKeypress', function() {
+angular.module('etcdApp').directive('ngKeydown', function() {
     return function(scope, element, attrs) {
         element.bind("keydown", function(event) {
             scope.$apply(function(){
