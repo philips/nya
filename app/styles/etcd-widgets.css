@@ -323,21 +323,20 @@ body {
 			margin: 0px;
 			position: absolute;
 			top: 0px;
-			left: 3px;
-			display: none;
+			left: 36px;
 		}
 
 		.etcd-container.etcd-browser.etcd-preview-reveal .etcd-add {
-			display: none;
+
 		}
 
 		.etcd-container.etcd-browser.etcd-preview-hide .etcd-add {
-			display: none;
+
 		}
 
 			.etcd-add svg {
-				height: 20px;
-				padding: 8px 6px;
+				height: 22px;
+				padding: 7px 6px;
 			}
 
 			.etcd-add:hover svg {
@@ -351,7 +350,7 @@ body {
 
 		.etcd-container.etcd-browser .etcd-header .etcd-browser-path {
 			position: absolute;
-			left: 37px;
+			left: 72px;
 			right: 0px;
 			top: 0;
 			margin: 6px 5px 6px 5px;

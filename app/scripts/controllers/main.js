@@ -128,6 +128,12 @@ angular.module('etcdApp')
         });*/
     }
 
+    $scope.add = function() {
+    	$scope.save = "etcd-save-reveal";
+    	$scope.preview = "etcd-preview-reveal";
+    	$scope.single_value = "";
+    }
+
     $scope.getHeight = function() {
         return $(window).height();
     };
