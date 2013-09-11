@@ -65,10 +65,10 @@
 			</table>
         </div>
         <div class="etcd-preview">
-            <textarea placeholder="Enter a key name above and the value here" ng-model="single_value" tabindex="888" ng-keydown="show_save()">
+            <textarea placeholder="Enter a key name above and the value here" ng-model="single_value" tabindex="888" ng-change="show_save()">
             </textarea>
             <div class="etcd-empty">
-                <div class="etcd-empty-message">No key selected.</div>
+                <div class="etcd-empty-message">{{preview_message}}</div>
             </div>
             <div class="etcd-dialog">
                 <div class="etcd-dialog-message">

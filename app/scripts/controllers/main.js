@@ -15,6 +15,9 @@ angular.module('etcdApp')
   	//read from path when it changes
   	$scope.$watch('etcd_path', function() {
 
+  		//write to localstorage
+  		localStorage.setItem('etcd_path', $scope.etcd_path);
+
   		var current_path = $scope.etcd_path.split("/");
     	var parent_path;
     	//empty strings that used to be /
@@ -42,17 +45,21 @@ angular.module('etcdApp')
 	    $http.get('http://localhost:4001' + $scope.etcd_path).success(function(data) {
 	    	//swap this out with better logic later
 	    	if(data.length) {
-	    		console.log("directory");
 	    		$scope.list = data;
 	    		$scope.preview = "etcd-preview-hide";
 	    	} else {
-	    		console.log("single value");
 	    		$scope.single_value = data.value;
 	    		$scope.preview = "etcd-preview-reveal";
 	    		$http.get('http://localhost:4001' + $scope.etcd_parent_path).success(function(data) {
 	    			$scope.list = data;
 	    		});
 	    	}
+	    	$scope.preview_message = "No key selected."
+	    }).error(function (data, status, headers, config) {
+	    	$scope.preview_message = "Key does not exist."
+	    	$http.get('http://localhost:4001' + $scope.etcd_parent_path).success(function(data) {
+    			$scope.list = data;
+    		});
 	    });
 	}
 
@@ -91,7 +98,6 @@ angular.module('etcdApp')
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         }).success(function (data, status, headers, config) {
         	//TODO: remove loader
-            console.log("success");
             $scope.save = "etcd-save-hide";
             $scope.preview = "etcd-preview-hide";
             $scope.back();
@@ -125,7 +131,6 @@ angular.module('etcdApp')
         return $(window).height();
     };
     $scope.$watch($scope.getHeight, function(newValue, oldValue) {
-        console.log($scope.getHeight());
         $(".etcd-body").css("height", $scope.getHeight()-45);
     });
     window.onresize = function(){
@@ -144,16 +149,6 @@ angular.module('etcdApp').directive('ngEnter', function() {
 
                 event.preventDefault();
             }
-        });
-    };
-});
-
-angular.module('etcdApp').directive('ngKeydown', function() {
-    return function(scope, element, attrs) {
-        element.bind("keydown", function(event) {
-            scope.$apply(function(){
-                scope.$eval(attrs.ngEnter);
-            });
         });
     };
 });
