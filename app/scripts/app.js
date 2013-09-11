@@ -4,7 +4,7 @@ var etcdApp = angular.module('etcdApp', ['ngRoute', 'etcdResource', 'timeRelativ
   .config(['$routeProvider', function ($routeProvider) {
     //read localstorage
     var previous_path = localStorage.getItem('etcd_path');
-    if(previous_path != null) {
+    if(previous_path != null && previous_path.indexOf('/v1/keys/') !== -1) {
       var redirect_path = previous_path
     } else {
       var redirect_path = '/v1/keys/';
