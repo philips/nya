@@ -120,6 +120,18 @@ angular.module('etcdApp')
             console.log(status);
         });*/
     }
+
+    $scope.getHeight = function() {
+        return $(window).height();
+    };
+    $scope.$watch($scope.getHeight, function(newValue, oldValue) {
+        console.log($scope.getHeight());
+        $(".etcd-body").css("height", $scope.getHeight()-45);
+    });
+    window.onresize = function(){
+        $scope.$apply();
+    }
+
 })
 
 angular.module('etcdApp').directive('ngEnter', function() {
@@ -157,7 +169,7 @@ angular.module('etcdApp').directive('highlight', ['$location', function(location
 
     };
 
-    }]);
+}]);
 
 moment.lang('en', {
     relativeTime : {

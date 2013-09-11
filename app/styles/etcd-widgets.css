@@ -412,6 +412,8 @@ body {
 		font-size: 13px;
 		border: 1px;
 		outline: none;
+		box-sizing: border-box;
+		-moz-box-sizing: border-box;
 	}
 
 		.etcd-container.etcd-browser.etcd-preview-reveal .etcd-preview pre, .etcd-container.etcd-browser.etcd-preview-reveal .etcd-preview textarea {
