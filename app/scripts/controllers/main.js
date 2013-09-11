@@ -94,7 +94,8 @@ angular.module('etcdApp')
     	$http({
             url: 'http://localhost:4001' + $scope.etcd_path,
             method: "POST",
-            data: "value=" + $scope.single_value,
+            //data: "value=" + $scope.single_value,
+            data: $.param({value: $scope.single_value}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         }).success(function (data, status, headers, config) {
         	//TODO: remove loader
