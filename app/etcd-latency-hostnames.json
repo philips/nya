@@ -1,12 +1,10 @@
 {
-  "padding": {"top": 10, "left": 5, "bottom": 20, "right": 10},
+  "width": 400,
+  "height": 100,
+  "padding": {"top": 30, "left": 30, "bottom": 30, "right": 10},
   "data": [
     {
       "name": "stats"
-    },
-    {
-      "name": "thresholds",
-      "values": [50, 100]
     }
   ],
   "scales": [
@@ -31,28 +29,24 @@
     }
   ],
   "axes": [
-    {"type": "x", "scale": "x", "ticks": 6},
-    {
-      "type": "y",
-      "scale": "y",
-      "properties": {
-          "ticks": {
-           "stroke": {"value": "transparent"}
-         },
-         "majorTicks": {
-           "stroke": {"value": "transparent"}
-         },
-         "labels": {
-           "fill": {"value": "transparent"}
-         },
-         "axis": {
-           "stroke": {"value": "#333"},
-           "strokeWidth": {"value": 1}
-         }
-      }
-    }
+    {"type": "x", "scale": "x", "ticks": 6}
   ],
   "marks": [
+    {
+      "type": "text",
+      "from": {"data": "stats"},
+      "properties": {
+        "enter": {
+          "x": {"value": 0},
+          "y": {"scale": "y", "field": "index"},
+          "baseline": {"value": "middle"},
+          "fill": {"value": "#000"},
+          "text": {"field": "data.hostname"},
+          "font": {"value": "Helvetica Neue"},
+          "fontSize": {"value": 13}
+        }
+      }
+    },
     {
       "type": "rect",
       "from": {"data": "stats"},

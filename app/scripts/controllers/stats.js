@@ -46,33 +46,42 @@ angular.module('etcd-stats')
     var json = JSON.parse(raw_json);
     $scope.machines = json;
 
-    console.log("machines:");
-    console.log(json);
+    $scope.graphContainer = "#latency";
 
-    console.log("working data");
-    console.log([{"hostname":"machine1", "latency":28}, {"hostname":"machine2", "latency":55}, {"hostname":"machine3", "latency":43}]);
+    function drawGraph () {
+        //hardcoded padding from chart json
+        var vert_padding = 30;
+        var hor_padding = 15;
+        //fetch width and height of graph area
+        var width = $($scope.graphContainer).width() - hor_padding;
+        var height = $($scope.graphContainer).height() - vert_padding;
 
-    console.log("new data");
-    console.log([json][0]);
-
-    // parse a spec and create a visualization view
-    function parse(spec) {
-        vg.parse.spec(spec, function(chart) {
-            chart({
-                el:"#latency",
-                data: {
-                    "table": [{"hostname":"machine1", "latency":28.45}, {"hostname":"machine2", "latency":55.889}, {"hostname":"machine3", "latency":43.6}]
-                }
-            }).update();
-        });
+        // parse a spec and create a visualization view
+        function parse(spec) {
+            vg.parse.spec(spec, function(chart) {
+                chart({
+                    el: $scope.graphContainer,
+                    data: {
+                        "stats": [{"hostname":"machine1", "latency":9}, {"hostname":"machine2", "latency":49}, {"hostname":"machine3", "latency":99},{"hostname":"machine4", "latency":99}]
+                    }
+                }).width(width).height(height).renderer("svg").update();
+            });
+        }
+        parse("../etcd-latency.json");
     }
-    parse("../etcd-latency.json");
 
     $scope.getHeight = function() {
         return $(window).height();
     };
+    $scope.getWidth = function() {
+        return $(window).width();
+    };
     $scope.$watch($scope.getHeight, function(newValue, oldValue) {
         $(".etcd-body").css("height", $scope.getHeight()-5);
+        drawGraph();
+    });
+    $scope.$watch($scope.getWidth, function(newValue, oldValue) {
+        drawGraph();
     });
     window.onresize = function(){
         $scope.$apply();

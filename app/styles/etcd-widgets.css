@@ -36,6 +36,14 @@ body {
 		
 	}
 
+	h2 {
+		font-size: 22px;
+		font-family: "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+		font-weight: 500;
+		margin: 0 0 20px 0;
+		padding: 0;
+	}
+
 	.etcd-button {
 		display:inline-block;
 		padding:6px 12px;
@@ -501,6 +509,27 @@ body {
 .etcd-container.etcd-stats {
 
 }
+
+	.etcd-container.etcd-stats .etcd-graph {
+		box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		position: absolute;
+		top: 0px;
+		bottom: 0px;
+		left: 0px;
+		right: 0px;
+		padding: 20px;
+	}
+
+		.etcd-container.etcd-stats .etcd-graph .etcd-graph-container {
+			position: absolute;
+			top: 60px;
+			bottom: 20px;
+			left: 20px;
+			right: 20px;
+			box-sizing: border-box;
+			-moz-box-sizing: border-box;
+		}
 
 	.etcd-container.etcd-stats table .etcd-latency {
 		width: 50%;
