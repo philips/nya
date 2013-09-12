@@ -516,22 +516,25 @@ body {
 
 	.etcd-format-selector {
 		position: absolute;
-		top: 20px;
-		right: 20px;
+		top: 12px;
+		right: 16px;
 		z-index: 999;
 	}
 
 	.etcd-format-selector .etcd-selector-item {
 		display: inline-block;
-		height: 20px;
-		width: 20px;
-		background: red;
-		margin-left: 5px;
+		height: 12px;
+		width: 12px;
+		padding: 8px 4px;
 	}
 
 	.etcd-format-selector .etcd-selector-item:hover {
 		cursor: pointer;
 	}
+
+		.etcd-format-selector .etcd-selector-item svg {
+			fill: #333;
+		}
 
 	.etcd-container.etcd-stats .etcd-graph {
 		box-sizing: border-box;
@@ -605,30 +608,27 @@ body {
 			left: 0%;
 		}
 
-		.etcd-container.etcd-stats.etcd-table-reveal .etcd-format-selector .etcd-selector-graph {
-			background: #999;
-		}
-
-		.etcd-container.etcd-stats.etcd-table-hide .etcd-format-selector .etcd-selector-table {
-			background: #999;
-		}
 
 		.etcd-container.etcd-stats.etcd-table-reveal .etcd-graph {
 			display: none;
 		}
-
 		.etcd-container.etcd-stats.etcd-table-hide .etcd-graph {
 			display: block;
 			left: 0%;
+		}
+		.etcd-container.etcd-stats.etcd-table-hide .etcd-format-selector .etcd-selector-graph svg * {
+			fill: #428bca;
 		}
 
 		.etcd-container.etcd-stats.etcd-table-hide .etcd-table {
 			display: none;
 		}
-
 		.etcd-container.etcd-stats.etcd-table-reveal .etcd-list {
 			display: block;
 			left: 0%;
+		}
+		.etcd-container.etcd-stats.etcd-table-reveal .etcd-format-selector .etcd-selector-table svg * {
+			fill: #428bca;
 		}
 
 	}
