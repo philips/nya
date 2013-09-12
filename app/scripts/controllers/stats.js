@@ -3,6 +3,10 @@
 angular.module('etcd-stats')
   .controller('StatsCtrl', function ($scope, $http) {
 
+    $scope.graphContainer = "#latency";
+    $scope.graphVisibility = "etcd-graph-show";
+    $scope.tableVisibility = "etcd-table-hide";
+
     /*{
         "gets":12,
         "sets":7,
@@ -11,42 +15,51 @@ angular.module('etcd-stats')
         "testAndSets":0
     }*/
     /*var raw_json = '{
-        "machine1":{
-            "latency":1.207485,
-            "averageLatency":0.7926237088607593,
-            "sdvLatency":0.3366530813348628,
-            "minLatency":0.544433,
-            "maxLatency":2.812764,
-            "failsCount":0,
-            "successCount":79,
-            "lastMessageSuccessful": 0
-        },
-        "machine2":{
-            "latency":1.207485,
-            "averageLatency":0.7926237088607593,
-            "sdvLatency":0.3366530813348628,
-            "minLatency":0.544433,
-            "maxLatency":2.812764,
-            "failsCount":0,
-            "successCount":79,
-            "lastMessageSuccessful": 1
-        },
-        "machine3":{
-            "latency":0.683863,
-            "averageLatency":0.8945207707423573,
-            "sdvLatency":0.40965952499407354,
-            "minLatency":0.422323,
-            "maxLatency":3.437533,
-            "failsCount":0,
-            "successCount":458,
-            "lastMessageSuccessful": 1
-        }
+        "followers": [
+            {
+                "hostname": "machine0",
+                "role": "leader",
+                "currentLatency":1.400807,
+                "averageLatency":1.0508203526193118,
+                "sdvLatency":0.5267024400632015,
+                "minLatency":0.326581,
+                "maxLatency":15.584396,
+                "failsCount":321,
+                "successCount":19738,
+                "failing":0
+            },
+            {
+                "hostname": "machine1",
+                "role": "follower",
+                "currentLatency":1.400807,
+                "averageLatency":1.0508203526193118,
+                "sdvLatency":0.5267024400632015,
+                "minLatency":0.326581,
+                "maxLatency":15.584396,
+                "failsCount":321,
+                "successCount":19738,
+                "failing":0
+            }
+        ]
     }';*/
-    var raw_json = '{"machine1":{"latency":1.207485,"averageLatency":0.7926237,"sdvLatency":0.33665308,"minLatency":0.544433,"maxLatency":2.812764,"failsCount":0,"successCount":79,"lastMessageSuccessful":0},"machine2":{"latency":2.307485,"averageLatency":0.7926237,"sdvLatency":0.33665308,"minLatency":0.544433,"maxLatency":2.812764,"failsCount":0,"successCount":79,"lastMessageSuccessful":1},"machine3":{"latency":0.683863,"averageLatency":0.89452076,"sdvLatency":0.40965953,"minLatency":0.422323,"maxLatency":3.437533,"failsCount":0,"successCount":458,"lastMessageSuccessful":1}}';
-    var json = JSON.parse(raw_json);
-    $scope.machines = json;
 
-    $scope.graphContainer = "#latency";
+    function randomData() {
+        var json = {"followers": []}
+        var num = Math.floor((Math.random()*20)+1);
+        var count = 0;
+        while (num > count) {
+            var follower = new Object();
+            follower.hostname = "etcd-host" + count;
+            follower.currentLatency = Math.floor((Math.random()*80)+1);
+
+            json.followers.push(follower);
+            count++;
+        }
+
+        return json;
+    }
+
+    $scope.machines = randomData();
 
     function drawGraph () {
         //hardcoded padding from chart json
@@ -62,12 +75,20 @@ angular.module('etcd-stats')
                 chart({
                     el: $scope.graphContainer,
                     data: {
-                        "stats": [{"hostname":"machine1", "latency":9}, {"hostname":"machine2", "latency":49}, {"hostname":"machine3", "latency":99},{"hostname":"machine4", "latency":99}]
+                        "stats": $scope.machines.followers
                     }
-                }).width(width).height(height).renderer("svg").update();
+                }).width(width).height(height).update();
             });
         }
         parse("../etcd-latency.json");
+    }
+
+    $scope.show_table = function() {
+        $scope.tableVisibility = "etcd-table-reveal";
+    }
+
+    $scope.show_graph = function() {
+        $scope.tableVisibility = "etcd-table-hide";
     }
 
     $scope.getHeight = function() {

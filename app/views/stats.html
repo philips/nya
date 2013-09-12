@@ -1,5 +1,13 @@
-<div class="etcd-container etcd-stats {{columns}}">
+<div class="etcd-container etcd-stats {{columns}} {{tableVisibility}}">
     <div class="etcd-body">
+        <div class="etcd-format-selector">
+            <div class="etcd-selector-item etcd-selector-graph" ng-click="show_graph()">
+                g
+            </div>
+            <div class="etcd-selector-item etcd-selector-table" ng-click="show_table()">
+                t
+            </div>
+        </div>
         <div class="etcd-graph">
             <h2>Follower Latency</h2>
             <div class="etcd-graph-container" id="latency">
@@ -12,11 +20,11 @@
                 <td class="etcd-latency">Latency</td>
             </thead>
             <tbody>
-                <tr ng-repeat="(hostname, machine) in machines">
-                    <td>{{hostname}}</td>
+                <tr ng-repeat="follower in machines.followers">
+                    <td>{{follower.hostname}}</td>
                     <td>
-                        <div class="etcd-square ng-class: {'etcd-square-green': machine.latency < 1, 'etcd-square-orange': machine.latency < 2, 'etcd-square-red': machine.latency >= 2}"></div>
-                        <div class="etcd-latency-value">{{machine.latency | number:1}} ms</div>
+                        <div class="etcd-square ng-class: {'etcd-square-green': follower.currentLatency < 50, 'etcd-square-orange': follower.currentLatency < 100, 'etcd-square-red': follower.currentLatency >= 100}"></div>
+                        <div class="etcd-latency-value">{{follower.currentLatency | number:1 }} ms</div>
                     </td>
                 </tr>
             </tbody>

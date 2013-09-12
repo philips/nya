@@ -510,6 +510,29 @@ body {
 
 }
 
+	.etcd-container.etcd-stats h2 {
+		margin-top: -7px;
+	}
+
+	.etcd-format-selector {
+		position: absolute;
+		top: 20px;
+		right: 20px;
+		z-index: 999;
+	}
+
+	.etcd-format-selector .etcd-selector-item {
+		display: inline-block;
+		height: 20px;
+		width: 20px;
+		background: red;
+		margin-left: 5px;
+	}
+
+	.etcd-format-selector .etcd-selector-item:hover {
+		cursor: pointer;
+	}
+
 	.etcd-container.etcd-stats .etcd-graph {
 		box-sizing: border-box;
 		-moz-box-sizing: border-box;
@@ -582,12 +605,38 @@ body {
 			left: 0%;
 		}
 
+		.etcd-container.etcd-stats.etcd-table-reveal .etcd-format-selector .etcd-selector-graph {
+			background: #999;
+		}
+
+		.etcd-container.etcd-stats.etcd-table-hide .etcd-format-selector .etcd-selector-table {
+			background: #999;
+		}
+
+		.etcd-container.etcd-stats.etcd-table-reveal .etcd-graph {
+			display: none;
+		}
+
+		.etcd-container.etcd-stats.etcd-table-hide .etcd-graph {
+			display: block;
+			left: 0%;
+		}
+
+		.etcd-container.etcd-stats.etcd-table-hide .etcd-table {
+			display: none;
+		}
+
+		.etcd-container.etcd-stats.etcd-table-reveal .etcd-list {
+			display: block;
+			left: 0%;
+		}
+
 	}
 	
 
 	/* Double Column Positioning */
 	@media (min-width: 700px) {
-	.etcd-container.etcd-stats .etcd-list {
+		.etcd-container.etcd-stats .etcd-list {
 			width: 50%;
 			left: 50%;
 		}
@@ -595,6 +644,10 @@ body {
 		.etcd-container.etcd-stats .etcd-graph {
 			left: 0%;
 			width: 50%;
+		}
+
+		.etcd-container.etcd-stats .etcd-format-selector {
+			display: none;
 		}
 
 	}
