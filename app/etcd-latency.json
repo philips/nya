@@ -1,0 +1,34 @@
+{
+  "width": 400,
+  "height": 200,
+  "padding": {"top": 10, "left": 30, "bottom": 20, "right": 10},
+  "data": [
+    {
+      "name": "table"
+    }
+  ],
+  "scales": [
+    {"name":"machine_hostname", "type":"ordinal", "range":"width", "domain":{"data":"table", "field":"data.hostname"}},
+    {"name":"machine_latency", "type":"linear", "range":"height", "domain":{"data":"table", "field":"data.latency"}}
+  ],
+  "axes": [
+    {"type":"x", "scale":"machine_latency"},
+    {"type":"y", "scale":"machine_hostname"}
+  ],
+  "marks": [
+    {
+      "type": "rect",
+      "from": {"data":"table"},
+      "properties": {
+        "enter": {
+          "x": {"scale":"machine_hostname", "field":"data.hostname"},
+          "width": {"scale":"machine_hostname", "band":true, "offset":-1},
+          "y": {"scale":"machine_latency", "field":"data.latency"},
+          "y2": {"scale":"machine_latency", "value":0}
+        },
+        "update": { "fill": {"value":"steelblue"} },
+        "hover": { "fill": {"value":"red"} }
+      }
+    }
+  ]
+}

@@ -497,3 +497,75 @@ body {
 				display: none;
 			}
 	}
+
+.etcd-container.etcd-stats {
+
+}
+
+	.etcd-container.etcd-stats table .etcd-latency {
+		width: 50%;
+	}
+
+	.etcd-container.etcd-stats .etcd-list {
+		position: absolute;
+		left: 100%;
+		min-height: 100%;
+		overflow-y: auto;
+		overflow-x: hidden;
+		top: 0px;
+		box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		background-color: #fff;
+		width: 100%;
+		border-left: 1px solid #ddd;
+	}
+
+	.etcd-container.etcd-stats .etcd-list .etcd-square {
+		height: 10px;
+		width: 10px;
+		display: inline-block;
+		margin-right: 5px;
+	}
+
+		.etcd-container.etcd-stats .etcd-list .etcd-square-red {
+			background-color: #c40022;
+		}
+
+		.etcd-container.etcd-stats .etcd-list .etcd-square-orange {
+			background-color: #FFC000;
+		}
+
+		.etcd-container.etcd-stats .etcd-list .etcd-square-green {
+			background-color: #00DB24;
+		}
+
+	.etcd-container.etcd-stats .etcd-list .etcd-latency-value {
+		display: inline-block;
+	}
+
+	/* Single Column Positioning */
+	@media (max-width: 700px) {
+		.etcd-container.etcd-stats .etcd-list {
+			width: 100%;
+		}
+
+		.etcd-container.etcd-stats .etcd-graph {
+			left: 0%;
+		}
+
+	}
+	
+
+	/* Double Column Positioning */
+	@media (min-width: 700px) {
+	.etcd-container.etcd-stats .etcd-list {
+			width: 50%;
+			left: 50%;
+		}
+
+		.etcd-container.etcd-stats .etcd-graph {
+			left: 0%;
+			width: 50%;
+		}
+
+	}

@@ -1,0 +1,23 @@
+<div class="etcd-container etcd-stats {{columns}}">
+    <div class="etcd-body">
+        <div class="etcd-graph" id="latency">
+        </div>
+        <div class="etcd-list">
+            <table cellpadding="0" cellspacing="0">
+            <thead>
+                <td class="etcd-name-header">Machine Hostname</td>
+                <td class="etcd-latency">Latency</td>
+            </thead>
+            <tbody>
+                <tr ng-repeat="(hostname, machine) in machines">
+                    <td>{{hostname}}</td>
+                    <td>
+                        <div class="etcd-square ng-class: {'etcd-square-green': machine.latency < 1, 'etcd-square-orange': machine.latency < 2, 'etcd-square-red': machine.latency >= 2}"></div>
+                        <div class="etcd-latency-value">{{machine.latency | number:1}} ms</div>
+                    </td>
+                </tr>
+            </tbody>
+            </table>
+        </div>
+    </div>
+</div>
