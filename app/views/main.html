@@ -41,7 +41,7 @@
 			    <td class="etcd-actions-header">&nbsp</td>
 			</thead>
 			<tbody>
-			    <tr ng-repeat="key in list">
+			    <tr ng-repeat="key in list | orderBy:'key'">
 			        <td><a ng-class="{true:'directory'}[key.dir]" href="#/v1/keys{{key.key}}" highlight>{{key.key}}</a></td>
 			        <td ng-switch on="!!key.expiration" class="etcd-ttl">
 					    <div ng-switch-when="true"><time relative datetime="{{key.expiration.substring(0, key.expiration.lastIndexOf('-'))}}"></time></div>
