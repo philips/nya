@@ -123,6 +123,14 @@ body {
 			left: 15px;
 		}
 
+	.etcd-popover.etcd-popover-left {
+		right: 10px;
+	}
+
+		.etcd-popover-left .etcd-popover-notch {
+			right: 15px;
+		}
+
 		.etcd-popover-confirm {
 			margin-top: 10px;
 		}

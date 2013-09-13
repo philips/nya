@@ -1,5 +1,6 @@
 <div class="etcd-container etcd-browser {{columns}} {{preview}} {{save}}">
-    <div class="etcd-popover" id="etcd-save-error">
+    <!--
+    <div class="etcd-popover etcd-popover-error">
         <div class="etcd-popover-notch"></div>
         <div class="etcd-popover-content">
             Overwrite this value?
@@ -8,10 +9,17 @@
             <button class="etcd-button etcd-button-small etcd-button-primary etcd-confirm">Overwrite</button>
         </div>
     </div>
+    -->
+    <div class="etcd-popover etcd-popover-error" id="etcd-save-error">
+        <div class="etcd-popover-notch"></div>
+        <div class="etcd-popover-content">
+            Error:
+        </div>
+    </div>
     <div class="etcd-popover etcd-popover-error" id="etcd-browse-error">
         <div class="etcd-popover-notch"></div>
         <div class="etcd-popover-content">
-            Error: This key does not exist.
+            Error: 
         </div>
     </div>
     <div class="etcd-header solid">

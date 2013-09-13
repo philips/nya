@@ -115,8 +115,8 @@ angular.module('etcdApp')
             $scope.writingNew = false;
         }).error(function (data, status, headers, config) {
         	//TODO: remove loader
-        	//TODO: show popover with error
-            console.log(status);
+        	//show errors
+            $scope.showSaveError(data.message);
         });
     }
 
@@ -133,8 +133,8 @@ angular.module('etcdApp')
             $scope.back();
         }).error(function (data, status, headers, config) {
         	//TODO: remove loader
-        	//TODO: show popover with error
-            console.log(status);
+            //show errors
+            $scope.showBrowseError("Error: Could not delete the key");
         });
     }
 
@@ -149,6 +149,11 @@ angular.module('etcdApp')
     $scope.showBrowseError = function(message) {
         $("#etcd-browse-error").find(".etcd-popover-content").text("Error: " + message);
         $("#etcd-browse-error").addClass("etcd-popover-right").show();
+    }
+
+    $scope.showSaveError = function(message) {
+        $("#etcd-save-error").find(".etcd-popover-content").text("Error: " + message);
+        $("#etcd-save-error").addClass("etcd-popover-left").show();
     }
 
     $scope.getHeight = function() {
