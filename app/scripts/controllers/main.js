@@ -9,35 +9,38 @@ angular.module('etcdApp')
   	$scope.preview = "etcd-preview-hide";
   	$scope.etcd_path = "/v1/keys/";
   	$scope.enable_back = true;
+    $scope.writingNew = false;
 
   	$scope.etcd_path = $location.path();
 
   	//read from path when it changes
   	$scope.$watch('etcd_path', function() {
 
-  		//write to localstorage
-  		localStorage.setItem('etcd_path', $scope.etcd_path);
+        if($scope.writingNew == false) {
+      		//write to localstorage
+      		localStorage.setItem('etcd_path', $scope.etcd_path);
 
-  		var current_path = $scope.etcd_path.split("/");
-    	var parent_path;
-    	//empty strings that used to be /
-    	current_path = current_path.filter(function(v){return v!==''});
-    	//remove last item
-    	current_path.pop();
-    	//reconstruct path
-    	parent_path = current_path.join("/");
+      		var current_path = $scope.etcd_path.split("/");
+        	var parent_path;
+        	//empty strings that used to be /
+        	current_path = current_path.filter(function(v){return v!==''});
+        	//remove last item
+        	current_path.pop();
+        	//reconstruct path
+        	parent_path = current_path.join("/");
 
-    	$scope.etcd_parent_path = "/" + parent_path + "/";
+        	$scope.etcd_parent_path = "/" + parent_path + "/";
 
-  		//load data
-  		read();
+      		//load data
+      		read();
 
-  		//disable back button if at root (/v1/keys/)
-  		if($scope.etcd_path == "/v1/keys/") {
-  			$scope.enable_back = false;
-    	} else {
-    		$scope.enable_back = true;
-    	}
+      		//disable back button if at root (/v1/keys/)
+      		if($scope.etcd_path == "/v1/keys/") {
+      			$scope.enable_back = false;
+        	} else {
+        		$scope.enable_back = true;
+        	}
+        }
   	});
 
   	//make requests
@@ -79,6 +82,8 @@ angular.module('etcdApp')
     		$scope.etcd_path = "/" + new_path + "/";
     	}
   		$location.path($scope.etcd_path);
+        $scope.preview = "etcd-preview-hide";
+        $scope.writingNew = false;
     }
 
     $scope.sync_location = function() {
@@ -102,6 +107,7 @@ angular.module('etcdApp')
             $scope.save = "etcd-save-hide";
             $scope.preview = "etcd-preview-hide";
             $scope.back();
+            $scope.writingNew = false;
         }).error(function (data, status, headers, config) {
         	//TODO: remove loader
         	//TODO: show popover with error
@@ -111,13 +117,12 @@ angular.module('etcdApp')
 
     $scope.delete_key = function() {
     	//TODO: add loader
-    	/*$http({
+    	$http({
             url: 'http://localhost:4001' + $scope.etcd_path,
             method: "DELETE",
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         }).success(function (data, status, headers, config) {
         	//TODO: remove loader
-            console.log("success");
             $scope.save = "etcd-save-hide";
             $scope.preview = "etcd-preview-hide";
             $scope.back();
@@ -125,13 +130,15 @@ angular.module('etcdApp')
         	//TODO: remove loader
         	//TODO: show popover with error
             console.log(status);
-        });*/
+        });
     }
 
     $scope.add = function() {
     	$scope.save = "etcd-save-reveal";
     	$scope.preview = "etcd-preview-reveal";
     	$scope.single_value = "";
+        $(".etcd-browser-path").find("input").focus();
+        $scope.writingNew = true;
     }
 
     $scope.getHeight = function() {

@@ -452,10 +452,16 @@ body {
 
 			.etcd-container.etcd-browser.etcd-preview-reveal .etcd-list {
 				left: -100%;
+				transition-property: all;
+  				transition-duration: 250ms;
+  				transition-timing-function: ease-in-out;
 			}
 
 			.etcd-container.etcd-browser.etcd-preview-hide .etcd-list {
-				left: auto;
+				left: 0%;
+				transition-property: all;
+  				transition-duration: 250ms;
+  				transition-timing-function: ease-in-out;
 			}
 
 		.etcd-container.etcd-browser .etcd-preview {
@@ -464,12 +470,16 @@ body {
 
 			.etcd-container.etcd-browser.etcd-preview-reveal .etcd-preview {
 				left: -1px;
-				display: block;
+				transition-property: all;
+  				transition-duration: 250ms;
+  				transition-timing-function: ease-in-out;
 			}
 
 			.etcd-container.etcd-browser.etcd-preview-hide .etcd-preview {
 				left: 100%;
-				display: block;
+				transition-property: all;
+  				transition-duration: 250ms;
+  				transition-timing-function: ease-in-out;
 			}
 	}
 	
@@ -602,30 +612,41 @@ body {
 	@media (max-width: 700px) {
 		.etcd-container.etcd-stats .etcd-list {
 			width: 100%;
+			left: 100%;
 		}
 
 		.etcd-container.etcd-stats .etcd-graph {
 			left: 0%;
 		}
 
-
 		.etcd-container.etcd-stats.etcd-table-reveal .etcd-graph {
-			display: none;
+			left: -100%;
+			transition-property: all;
+  			transition-duration: 250ms;
+  			transition-timing-function: ease-in-out;
 		}
 		.etcd-container.etcd-stats.etcd-table-hide .etcd-graph {
-			display: block;
 			left: 0%;
+			transition-property: all;
+  			transition-duration: 250ms;
+  			transition-timing-function: ease-in-out;
+
 		}
 		.etcd-container.etcd-stats.etcd-table-hide .etcd-format-selector .etcd-selector-graph svg * {
 			fill: #428bca;
 		}
 
-		.etcd-container.etcd-stats.etcd-table-hide .etcd-table {
-			display: none;
+		.etcd-container.etcd-stats.etcd-table-hide .etcd-list {
+			left: 100%;
+			transition-property: all;
+  			transition-duration: 250ms;
+  			transition-timing-function: ease-in-out;
 		}
 		.etcd-container.etcd-stats.etcd-table-reveal .etcd-list {
-			display: block;
 			left: 0%;
+			transition-property: all;
+  			transition-duration: 250ms;
+  			transition-timing-function: ease-in-out;
 		}
 		.etcd-container.etcd-stats.etcd-table-reveal .etcd-format-selector .etcd-selector-table svg * {
 			fill: #428bca;
