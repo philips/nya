@@ -46,6 +46,8 @@ angular.module('etcdApp')
   	//make requests
   	function read() {
 	    $http.get('http://localhost:4001' + $scope.etcd_path).success(function(data) {
+            //hide any errors
+            $("#etcd-browse-error").hide();
 	    	//swap this out with better logic later
 	    	if(data.length) {
 	    		$scope.list = data;
@@ -63,6 +65,9 @@ angular.module('etcdApp')
 	    	$http.get('http://localhost:4001' + $scope.etcd_parent_path).success(function(data) {
     			$scope.list = data;
     		});
+
+            //show errors
+            $scope.showBrowseError(data.message);
 	    });
 	}
 
@@ -139,6 +144,11 @@ angular.module('etcdApp')
     	$scope.single_value = "";
         $(".etcd-browser-path").find("input").focus();
         $scope.writingNew = true;
+    }
+
+    $scope.showBrowseError = function(message) {
+        $("#etcd-browse-error").find(".etcd-popover-content").text("Error: " + message);
+        $("#etcd-browse-error").addClass("etcd-popover-right").show();
     }
 
     $scope.getHeight = function() {
