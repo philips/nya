@@ -28,15 +28,15 @@
             <h2>Follower List</h2>
             <table cellpadding="0" cellspacing="0">
             <thead>
-                <td class="etcd-name-header">Machine Hostname</td>
+                <td class="etcd-name-header">Machine Name</td>
                 <td class="etcd-latency">Latency</td>
             </thead>
             <tbody>
-                <tr ng-repeat="follower in machines.followers">
-                    <td>{{follower.hostname}}</td>
+                <tr ng-repeat="follower in followers">
+                    <td>{{follower.name}}</td>
                     <td>
-                        <div class="etcd-square ng-class: {'etcd-square-green': follower.currentLatency < 50, 'etcd-square-orange': follower.currentLatency < 100, 'etcd-square-red': follower.currentLatency >= 100}"></div>
-                        <div class="etcd-latency-value">{{follower.currentLatency | number:1 }} ms</div>
+                        <div class="etcd-square ng-class: {'etcd-square-green': follower.latency.current < 2, 'etcd-square-orange': follower.latency.current < 5, 'etcd-square-red': follower.latency.current >= 10}"></div>
+                        <div class="etcd-latency-value">{{follower.latency.current | number:1 }} ms</div>
                     </td>
                 </tr>
             </tbody>

@@ -23,7 +23,7 @@
       "domainMax": 100,
       "nice": true,
       "zero": true,
-      "domain": {"data": "stats", "field": "data.currentLatency"}
+      "domain": {"data": "stats", "field": "data.latency.current"}
     },
     {
       "name": "color",
@@ -66,10 +66,10 @@
       "properties": {
         "enter": {
           "x": {"scale": "x", "value": 0},
-          "x2": {"scale": "x", "field": "data.currentLatency"},
+          "x2": {"scale": "x", "field": "data.latency.current"},
           "y": {"scale": "y", "field": "index", "offset": -1},
           "height": {"value": 3},
-          "fill": {"scale":"color", "field":"data.currentLatency"}
+          "fill": {"scale":"color", "field":"data.latency.current"}
         }
       }
     },
@@ -78,7 +78,7 @@
       "from": {"data": "stats"},
       "properties": {
         "enter": {
-          "x": {"scale": "x", "field": "data.currentLatency"},
+          "x": {"scale": "x", "field": "data.latency.current"},
           "y": {"scale": "y", "field": "index"},
           "size": {"value": 50},
           "fill": {"value": "#000"}
