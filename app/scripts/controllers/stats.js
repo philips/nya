@@ -3,32 +3,32 @@
 angular.module('etcd-stats')
   .controller('StatsCtrl', function ($scope, $http) {
 
-  $scope.graphContainer = "#latency";
-  $scope.graphVisibility = "etcd-graph-show";
-  $scope.tableVisibility = "etcd-table-hide";
+  $scope.graphContainer = '#latency';
+  $scope.graphVisibility = 'etcd-graph-show';
+  $scope.tableVisibility = 'etcd-table-hide';
 
   //make requests
   function read() {
     $http.get('http://localhost:4001/v1/stats/leader').success(function(data) {
       $scope.leaderStats = data;
-      $scope.followers = []
+      $scope.followers = [];
       $.each(data.peers, function(index, value) {
-        value.name = index
-        $scope.followers.push(value)
+        value.name = index;
+        $scope.followers.push(value);
       });
-      drawGraph()
-    }).error(function (data, status, headers, config) {
+      drawGraph();
+    }).error(function (data) {
       $scope.showBrowseError(data.message);
     });
   }
 
   function drawGraph () {
     //hardcoded padding from chart json
-    var vert_padding = 30;
-    var hor_padding = 15;
+    var vertPadding = 30;
+    var horzPadding = 15;
     //fetch width and height of graph area
-    var width = $($scope.graphContainer).width() - hor_padding;
-    var height = $($scope.graphContainer).height() - vert_padding;
+    var width = $($scope.graphContainer).width() - horzPadding;
+    var height = $($scope.graphContainer).height() - vertPadding;
 
     // parse a spec and create a visualization view
     function parse(spec) {
@@ -36,21 +36,21 @@ angular.module('etcd-stats')
         chart({
           el: $scope.graphContainer,
           data: {
-            "stats": $scope.followers
+            'stats': $scope.followers
           }
         }).width(width).height(height).update();
       });
     }
-    parse("../etcd-latency.json");
+    parse('../etcd-latency.json');
   }
 
-  $scope.show_table = function() {
-    $scope.tableVisibility = "etcd-table-reveal";
-  }
+  $scope.showTable = function() {
+    $scope.tableVisibility = 'etcd-table-reveal';
+  };
 
-  $scope.show_graph = function() {
-    $scope.tableVisibility = "etcd-table-hide";
-  }
+  $scope.showGraph = function() {
+    $scope.tableVisibility = 'etcd-table-hide';
+  };
 
   $scope.getHeight = function() {
     return $(window).height();
@@ -58,19 +58,20 @@ angular.module('etcd-stats')
   $scope.getWidth = function() {
     return $(window).width();
   };
-  $scope.$watch($scope.getHeight, function(newValue, oldValue) {
-    $(".etcd-body").css("height", $scope.getHeight()-5);
+  $scope.$watch($scope.getHeight, function() {
+    $('.etcd-body').css('height', $scope.getHeight()-5);
     read();
   });
-  $scope.$watch($scope.getWidth, function(newValue, oldValue) {
+  $scope.$watch($scope.getWidth, function() {
     read();
   });
   window.onresize = function(){
     $scope.$apply();
-  }
+  };
+
   // Update the graphs live
   setInterval(function() {
-    read()
+    read();
     $scope.$apply();
   }, 500);
 });

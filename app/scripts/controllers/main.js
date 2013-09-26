@@ -7,45 +7,45 @@ angular.module('etcdApp')
 
   $scope.save = 'etcd-save-hide';
   $scope.preview = 'etcd-preview-hide';
-  $scope.etcd_path = '/v1/keys/';
-  $scope.enable_back = true;
+  $scope.etcdPath = '/v1/keys/';
+  $scope.enableBack = true;
   $scope.writingNew = false;
 
-  $scope.etcd_path = $location.path();
+  $scope.etcdPath = $location.path();
 
   //read from path when it changes
-  $scope.$watch('etcd_path', function() {
+  $scope.$watch('etcdPath', function() {
 
-    if($scope.writingNew == false) {
+    if($scope.writingNew === false) {
       //write to localstorage
-      localStorage.setItem('etcd_path', $scope.etcd_path);
+      localStorage.setItem('etcdPath', $scope.etcdPath);
 
-      var current_path = $scope.etcd_path.split('/');
-      var parent_path;
+      var currentPath = $scope.etcdPath.split('/');
+      var parentPath;
       //empty strings that used to be /
-      current_path = current_path.filter(function(v){return v!==''});
+      currentPath = currentPath.filter(function(v){return v!=='';});
       //remove last item
-      current_path.pop();
+      currentPath.pop();
       //reconstruct path
-      parent_path = current_path.join('/');
+      parentPath = currentPath.join('/');
 
-      $scope.etcd_parent_path = '/' + parent_path + '/';
+      $scope.etcdParentPath = '/' + parentPath + '/';
 
       //load data
       read();
 
       //disable back button if at root (/v1/keys/)
-      if($scope.etcd_path == '/v1/keys/') {
-        $scope.enable_back = false;
+      if($scope.etcdPath === '/v1/keys/') {
+        $scope.enableBack = false;
       } else {
-        $scope.enable_back = true;
+        $scope.enableBack = true;
       }
     }
   });
 
   //make requests
   function read() {
-    $http.get('http://localhost:4001' + $scope.etcd_path).success(function(data) {
+    $http.get('http://localhost:4001' + $scope.etcdPath).success(function(data) {
       //hide any errors
       $('#etcd-browse-error').hide();
       //swap this out with better logic later
@@ -53,16 +53,16 @@ angular.module('etcdApp')
         $scope.list = data;
         $scope.preview = 'etcd-preview-hide';
       } else {
-        $scope.single_value = data.value;
+        $scope.singleValue = data.value;
         $scope.preview = 'etcd-preview-reveal';
-        $http.get('http://localhost:4001' + $scope.etcd_parent_path).success(function(data) {
+        $http.get('http://localhost:4001' + $scope.etcdParentPath).success(function(data) {
           $scope.list = data;
         });
       }
-        $scope.preview_message = 'No key selected.'
+      $scope.previewMessage = 'No key selected.';
     }).error(function (data, status, headers, config) {
-      $scope.preview_message = 'Key does not exist.'
-      $http.get('http://localhost:4001' + $scope.etcd_parent_path).success(function(data) {
+      $scope.previewMessage = 'Key does not exist.';
+      $http.get('http://localhost:4001' + $scope.etcdParentPath).success(function(data) {
         $scope.list = data;
       });
       //show errors
@@ -72,39 +72,39 @@ angular.module('etcdApp')
 
   //back button click
   $scope.back = function() {
-    var path = $scope.etcd_path.split('/');
-    var path_length = path.length;
-    var new_path;
+    var path = $scope.etcdPath.split('/');
+    var pathLength = path.length;
+    var newPath;
     //empty strings that used to be /
-    path = path.filter(function(v){return v!==''});
+    path = path.filter(function(v){return v!=='';});
     //remove last item
     path.pop();
     //reconstruct path
-    new_path = path.join('/');
+    newPath = path.join('/');
     //record new path if it doesn't back up too much
-    if(new_path != 'v1') {
-      $scope.etcd_path = '/' + new_path + '/';
+    if(newPath !== 'v1') {
+      $scope.etcdPath = '/' + newPath + '/';
     }
-    $location.path($scope.etcd_path);
-        $scope.preview = 'etcd-preview-hide';
-        $scope.writingNew = false;
-  }
+    $location.path($scope.etcdPath);
+    $scope.preview = 'etcd-preview-hide';
+    $scope.writingNew = false;
+  };
 
-  $scope.sync_location = function() {
-    $location.path($scope.etcd_path);
-  }
+  $scope.syncLocation = function() {
+    $location.path($scope.etcdPath);
+  };
 
-  $scope.show_save = function() {
+  $scope.showSave = function() {
     $scope.save = 'etcd-save-reveal';
-  }
+  };
 
-  $scope.save_data = function() {
+  $scope.saveData = function() {
     //TODO: add loader
     $http({
-      url: 'http://localhost:4001' + $scope.etcd_path,
+      url: 'http://localhost:4001' + $scope.etcdPath,
       method: 'POST',
-      //data: 'value=' + $scope.single_value,
-      data: $.param({value: $scope.single_value}),
+      //data: 'value=' + $scope.singleValue,
+      data: $.param({value: $scope.singleValue}),
       headers: {'Content-Type': 'application/x-www-form-urlencoded'}
     }).success(function (data, status, headers, config) {
       //TODO: remove loader
@@ -117,14 +117,14 @@ angular.module('etcdApp')
       //show errors
       $scope.showSaveError(data.message);
     });
-  }
+  };
 
-  $scope.delete_key = function() {
+  $scope.deleteKey = function() {
     //TODO: add loader
     $http({
-      url: 'http://localhost:4001' + $scope.etcd_path,
-    method: 'DELETE',
-    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+      url: 'http://localhost:4001' + $scope.etcdPath,
+      method: 'DELETE',
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'}
     }).success(function (data, status, headers, config) {
       //TODO: remove loader
       $scope.save = 'etcd-save-hide';
@@ -135,61 +135,61 @@ angular.module('etcdApp')
       //show errors
       $scope.showBrowseError('Error: Could not delete the key');
     });
-  }
+  };
 
   $scope.add = function() {
     $scope.save = 'etcd-save-reveal';
     $scope.preview = 'etcd-preview-reveal';
-    $scope.single_value = '';
+    $scope.singleValue = '';
     $('.etcd-browser-path').find('input').focus();
     $scope.writingNew = true;
-  }
+  };
 
   $scope.showBrowseError = function(message) {
     $('#etcd-browse-error').find('.etcd-popover-content').text('Error: ' + message);
     $('#etcd-browse-error').addClass('etcd-popover-right').show();
-  }
+  };
 
   $scope.showSaveError = function(message) {
     $('#etcd-save-error').find('.etcd-popover-content').text('Error: ' + message);
     $('#etcd-save-error').addClass('etcd-popover-left').show();
-  }
+  };
 
   $scope.getHeight = function() {
     return $(window).height();
   };
-  $scope.$watch($scope.getHeight, function(newValue, oldValue) {
+  $scope.$watch($scope.getHeight, function() {
     $('.etcd-body').css('height', $scope.getHeight()-45);
   });
   window.onresize = function(){
     $scope.$apply();
-  }
+  };
 
-})
-
-angular.module('etcdApp').directive('ngEnter', function() {
-    return function(scope, element, attrs) {
-        element.bind('keydown keypress', function(event) {
-            if(event.which === 13) {
-                scope.$apply(function(){
-                    scope.$eval(attrs.ngEnter);
-                });
-
-                event.preventDefault();
-            }
-        });
-    };
 });
 
-angular.module('etcdApp').directive('highlight', ['$location', function(location) {
-    return {
-        restrict: 'A',
-        link: function(scope, element, attrs, controller) {
-            if('#' + scope.etcd_path == attrs.href) {
-              element.parent().parent().addClass('etcd-selected')
-            }
-        }
-    };
+angular.module('etcdApp').directive('ngEnter', function() {
+  return function(scope, element, attrs) {
+    element.bind('keydown keypress', function(event) {
+      if(event.which === 13) {
+        scope.$apply(function(){
+          scope.$eval(attrs.ngEnter);
+        });
+
+        event.preventDefault();
+      }
+    });
+  };
+});
+
+angular.module('etcdApp').directive('highlight', ['$location', function() {
+  return {
+    restrict: 'A',
+    link: function(scope, element, attrs) {
+      if('#' + scope.etcdPath === attrs.href) {
+        element.parent().parent().addClass('etcd-selected');
+      }
+    }
+  };
 }]);
 
 moment.lang('en', {

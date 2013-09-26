@@ -1,17 +1,17 @@
 'use strict';
 
-var etcdApp = angular.module('etcdApp', ['ngRoute', 'etcdResource', 'timeRelative'])
+angular.module('etcdApp', ['ngRoute', 'etcdResource', 'timeRelative'])
   .config(['$routeProvider', function ($routeProvider) {
     //read localstorage
-    var previous_path = localStorage.getItem('etcd_path');
-    if(previous_path != null && previous_path.indexOf('/v1/keys/') !== -1) {
-      var redirect_path = previous_path
-    } else {
-      var redirect_path = '/v1/keys/';
+    var previousPath = localStorage.getItem('etcd_path');
+    var redirectPath = '/v1/keys/';
+    if(previousPath !== null && previousPath.indexOf('/v1/keys/') !== -1) {
+      redirectPath = previousPath;
     }
+
     $routeProvider
       .when('/', {
-        redirectTo: redirect_path
+        redirectTo: redirectPath
       })
       .otherwise({
         templateUrl: 'views/browser.html',

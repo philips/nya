@@ -1,6 +1,6 @@
 'use strict';
 
-var etcdApp = angular.module('etcd-stats', ['ngRoute'])
+angular.module('etcd-stats', ['ngRoute'])
   .config(['$routeProvider', function ($routeProvider) {
     $routeProvider
       .when('/', {
