@@ -107,5 +107,5 @@ angular.module('etcd-stats')
     window.onresize = function(){
         $scope.$apply();
     }
-  	
+
 });
