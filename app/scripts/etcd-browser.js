@@ -14,7 +14,7 @@ var etcdApp = angular.module('etcdApp', ['ngRoute', 'etcdResource', 'timeRelativ
         redirectTo: redirect_path
       })
       .otherwise({
-        templateUrl: 'views/main.html',
+        templateUrl: 'views/browser.html',
         controller: 'MainCtrl'
       });
   }]);
