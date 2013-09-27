@@ -12,7 +12,7 @@ angular.module('etcd-stats')
     $http.get('http://localhost:4001/v1/stats/leader').success(function(data) {
       $scope.leaderStats = data;
       $scope.followers = [];
-      $.each(data.peers, function(index, value) {
+      $.each(data.followers, function(index, value) {
         value.name = index;
         $scope.followers.push(value);
       });
