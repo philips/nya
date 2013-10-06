@@ -1,15 +1,29 @@
 'use strict';
 
-var etcdStats = angular.module('etcd-stats');
+angular.module('etcdStatsDashboard', ['ngRoute', 'restangular'])
 
-etcdStats.controller('StatsCtrl', function ($scope, $http, statsVega) {
+.config(['$routeProvider', function ($routeProvider) {
+  $routeProvider
+    .when('/', {
+      templateUrl: 'views/stats.html',
+      controller: 'StatsCtrl'
+    })
+    .otherwise({
+      templateUrl: 'views/stats.html',
+      controller: 'StatsCtrl'
+    });
+}])
+
+.controller('StatsCtrl', ['$scope', 'Restangular', 'StatsVega', function ($scope, Restangular, statsVega) {
   $scope.graphContainer = '#latency';
   $scope.graphVisibility = 'etcd-graph-show';
   $scope.tableVisibility = 'etcd-table-hide';
 
+  var stats = Restangular.all('v1/stats');
+
   //make requests
   function read() {
-    $http.get('http://localhost:4001/v1/stats/leader').success(function(data) {
+    stats.one('leader').get().then(function(data) {
       $scope.leaderStats = data;
       $scope.followers = [];
       $.each(data.followers, function(index, value) {
@@ -17,8 +31,6 @@ etcdStats.controller('StatsCtrl', function ($scope, $http, statsVega) {
         $scope.followers.push(value);
       });
       drawGraph();
-    }).error(function (data) {
-      $scope.showBrowseError(data.message);
     });
   }
 
@@ -74,10 +86,11 @@ etcdStats.controller('StatsCtrl', function ($scope, $http, statsVega) {
     read();
     $scope.$apply();
   }, 500);
-});
+}])
+
 
 /* statsVega returns the vega configuration for the stats dashboard */
-etcdStats.factory('statsVega', function () {
+.factory('StatsVega', function () {
   return {
     'padding': {'top': 10, 'left': 5, 'bottom': 40, 'right': 10},
     'data': [
@@ -168,4 +181,3 @@ etcdStats.factory('statsVega', function () {
       ]
     };
 });
-
