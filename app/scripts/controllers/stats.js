@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('etcdStatsDashboard', ['ngRoute', 'restangular'])
+angular.module('etcdStatsDashboard', ['ngRoute', 'etcd'])
 
 .config(['$routeProvider', function ($routeProvider) {
   $routeProvider
@@ -14,16 +14,14 @@ angular.module('etcdStatsDashboard', ['ngRoute', 'restangular'])
     });
 }])
 
-.controller('StatsCtrl', ['$scope', 'Restangular', 'StatsVega', function ($scope, Restangular, statsVega) {
+.controller('StatsCtrl', ['$scope', 'EtcdV1', 'statsVega', function ($scope, EtcdV1, statsVega) {
   $scope.graphContainer = '#latency';
   $scope.graphVisibility = 'etcd-graph-show';
   $scope.tableVisibility = 'etcd-table-hide';
 
-  var stats = Restangular.all('v1/stats');
-
   //make requests
   function read() {
-    stats.one('leader').get().then(function(data) {
+    EtcdV1.stats.one('leader').get().then(function(data) {
       $scope.leaderStats = data;
       $scope.followers = [];
       $.each(data.followers, function(index, value) {
@@ -90,7 +88,7 @@ angular.module('etcdStatsDashboard', ['ngRoute', 'restangular'])
 
 
 /* statsVega returns the vega configuration for the stats dashboard */
-.factory('StatsVega', function () {
+.factory('statsVega', function () {
   return {
     'padding': {'top': 10, 'left': 5, 'bottom': 40, 'right': 10},
     'data': [
