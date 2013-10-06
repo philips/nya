@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('etcdApp', ['ngRoute', 'etcdResource', 'timeRelative'])
+angular.module('etcdApp', ['ngRoute', 'etcd', 'timeRelative'])
 
 .config(['$routeProvider', function ($routeProvider) {
   //read localstorage
@@ -21,7 +21,7 @@ angular.module('etcdApp', ['ngRoute', 'etcdResource', 'timeRelative'])
 }])
 
 .module('etcdApp')
-  .controller('MainCtrl', function ($scope, $http, etcdKeys, $location, $routeParams) {
+  .controller('MainCtrl', ['$scope', 'EtcdV1', '$location',  function ($scope, EtcdV1, $location) {
   //Allows CORS to work properly
   delete $http.defaults.headers.common['X-Requested-With'];
 
@@ -185,7 +185,7 @@ angular.module('etcdApp', ['ngRoute', 'etcdResource', 'timeRelative'])
     $scope.$apply();
   };
 
-})
+}])
 
 .module('etcdApp').directive('ngEnter', function() {
   return function(scope, element, attrs) {
