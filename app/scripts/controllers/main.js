@@ -1,13 +1,32 @@
 'use strict';
 
-angular.module('etcdApp')
+angular.module('etcdApp', ['ngRoute', 'etcdResource', 'timeRelative'])
+
+.config(['$routeProvider', function ($routeProvider) {
+  //read localstorage
+  var previousPath = localStorage.getItem('etcd_path');
+  var redirectPath = '/v1/keys/';
+  if(previousPath !== null && previousPath.indexOf('/v1/keys/') !== -1) {
+    redirectPath = previousPath;
+  }
+
+  $routeProvider
+    .when('/', {
+      redirectTo: redirectPath
+    })
+    .otherwise({
+      templateUrl: 'views/browser.html',
+      controller: 'MainCtrl'
+    });
+}])
+
+.module('etcdApp')
   .controller('MainCtrl', function ($scope, $http, etcdKeys, $location, $routeParams) {
   //Allows CORS to work properly
   delete $http.defaults.headers.common['X-Requested-With'];
 
   $scope.save = 'etcd-save-hide';
   $scope.preview = 'etcd-preview-hide';
-  $scope.etcdPath = '/v1/keys/';
   $scope.enableBack = true;
   $scope.writingNew = false;
 
@@ -45,6 +64,7 @@ angular.module('etcdApp')
 
   //make requests
   function read() {
+    EtcdV1.keys.one('leader').get().then(function(data) {
     $http.get('http://localhost:4001' + $scope.etcdPath).success(function(data) {
       //hide any errors
       $('#etcd-browse-error').hide();
@@ -165,9 +185,9 @@ angular.module('etcdApp')
     $scope.$apply();
   };
 
-});
+})
 
-angular.module('etcdApp').directive('ngEnter', function() {
+.module('etcdApp').directive('ngEnter', function() {
   return function(scope, element, attrs) {
     element.bind('keydown keypress', function(event) {
       if(event.which === 13) {
@@ -179,9 +199,9 @@ angular.module('etcdApp').directive('ngEnter', function() {
       }
     });
   };
-});
+})
 
-angular.module('etcdApp').directive('highlight', ['$location', function() {
+.module('etcdApp').directive('highlight', ['$location', function() {
   return {
     restrict: 'A',
     link: function(scope, element, attrs) {

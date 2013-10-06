@@ -6,5 +6,6 @@ var module = angular.module('etcd', ['restangular']).
       RestangularConfigurer.setBaseUrl('/v1/');
     });
     etcd.stats = etcd.one('stats');
+    etcd.keys = etcd.one('keys');
     return etcd;
   }]);

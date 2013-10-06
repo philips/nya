@@ -20,7 +20,7 @@ angular.module('etcdStatsDashboard', ['ngRoute', 'etcd'])
   $scope.tableVisibility = 'etcd-table-hide';
 
   //make requests
-  function read() {
+  function readStats() {
     EtcdV1.stats.one('leader').get().then(function(data) {
       $scope.leaderStats = data;
       $scope.followers = [];
@@ -70,10 +70,10 @@ angular.module('etcdStatsDashboard', ['ngRoute', 'etcd'])
   };
   $scope.$watch($scope.getHeight, function() {
     $('.etcd-body').css('height', $scope.getHeight()-5);
-    read();
+    readStats();
   });
   $scope.$watch($scope.getWidth, function() {
-    read();
+    readStats();
   });
   window.onresize = function(){
     $scope.$apply();
@@ -81,7 +81,7 @@ angular.module('etcdStatsDashboard', ['ngRoute', 'etcd'])
 
   // Update the graphs live
   setInterval(function() {
-    read();
+    readStats();
     $scope.$apply();
   }, 500);
 }])
