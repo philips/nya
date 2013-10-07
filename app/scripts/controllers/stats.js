@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('etcdStatsDashboard', ['ngRoute', 'etcd'])
+angular.module('etcdStats', ['ngRoute', 'etcd'])
 
 .config(['$routeProvider', function ($routeProvider) {
   $routeProvider

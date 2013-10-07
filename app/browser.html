@@ -17,7 +17,7 @@
         <link href="http://fonts.googleapis.com/css?family=Source+Code+Pro:400,500,600,700" rel="stylesheet" type="text/css">
         <!-- endbuild -->
 </head>
-  <body ng-app="etcdApp">
+  <body ng-app="etcdBrowser">
     <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
@@ -30,7 +30,7 @@
     <!-- Add your site or application content here -->
     <div id="etd_browser" ng-view="etcd">
     </div>
-        <!-- build:js scripts/modules.js -->
+        <!-- build:js scripts/browser-modules.js -->
         <script src="bower_components/jquery/jquery.js"></script>
         <script src="bower_components/angular/angular.js"></script>
         <script src="bower_components/angular-resource/angular-resource.js"></script>
@@ -42,7 +42,7 @@
         <script src="bower_components/moment/moment.js"></script>
         <!-- endbuild -->
 
-        <!-- build:js({.tmp,app}) scripts/scripts.js -->
+        <!-- build:js({.tmp,app}) scripts/browser-scripts.js -->
         <script src="scripts/ng-time-relative.min.js"></script>
         <script src="scripts/common/services/etcd.js"></script>
         <script src="scripts/controllers/browser.js"></script>

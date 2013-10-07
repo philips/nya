@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('etcdApp', ['ngRoute', 'etcd', 'timeRelative'])
+angular.module('etcdBrowser', ['ngRoute', 'etcd', 'timeRelative'])
 
 .constant('keyPrefix', '/v1/keys')
 
@@ -53,7 +53,7 @@ angular.module('etcdApp', ['ngRoute', 'etcd', 'timeRelative'])
 
   $scope.$watch('key', function() {
     if ($scope.writingNew === true) {
-      return
+      return;
     }
     $scope.key.get().success(function (data, status, headers, config) {
       //hide any errors
