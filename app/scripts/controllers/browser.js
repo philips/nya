@@ -2,17 +2,18 @@
 
 angular.module('etcdApp', ['ngRoute', 'etcd', 'timeRelative'])
 
-.config(['$routeProvider', function ($routeProvider) {
+.constant('keyPrefix', '/v1/keys')
+
+.config(['$routeProvider', 'keyPrefix', function ($routeProvider, keyPrefix) {
   //read localstorage
   var previousPath = localStorage.getItem('etcd_path');
-  var redirectPath = '/v1/keys/';
-  if(previousPath !== null && previousPath.indexOf('/v1/keys/') !== -1) {
+  if(previousPath !== null && previousPath.indexOf(keyPrefix) !== -1) {
     redirectPath = previousPath;
   }
 
   $routeProvider
     .when('/', {
-      redirectTo: redirectPath
+      redirectTo: keyPrefix
     })
     .otherwise({
       templateUrl: 'views/browser.html',
@@ -20,92 +21,66 @@ angular.module('etcdApp', ['ngRoute', 'etcd', 'timeRelative'])
     });
 }])
 
-.module('etcdApp')
-  .controller('MainCtrl', ['$scope', 'EtcdV1', '$location',  function ($scope, EtcdV1, $location) {
-  //Allows CORS to work properly
-  delete $http.defaults.headers.common['X-Requested-With'];
-
+.controller('MainCtrl', ['$scope', '$location', 'EtcdV1', 'keyPrefix', function ($scope, $location, EtcdV1, keyPrefix) {
   $scope.save = 'etcd-save-hide';
   $scope.preview = 'etcd-preview-hide';
   $scope.enableBack = true;
   $scope.writingNew = false;
 
+  // etcdPath is the path to the key that is currenly being looked at.
   $scope.etcdPath = $location.path();
 
-  //read from path when it changes
   $scope.$watch('etcdPath', function() {
+    function etcdPathKey() {
+      return pathKey($scope.etcdPath);
+    }
 
-    if($scope.writingNew === false) {
-      //write to localstorage
-      localStorage.setItem('etcdPath', $scope.etcdPath);
-
-      var currentPath = $scope.etcdPath.split('/');
-      var parentPath;
-      //empty strings that used to be /
-      currentPath = currentPath.filter(function(v){return v!=='';});
-      //remove last item
-      currentPath.pop();
-      //reconstruct path
-      parentPath = currentPath.join('/');
-
-      $scope.etcdParentPath = '/' + parentPath + '/';
-
-      //load data
-      read();
-
-      //disable back button if at root (/v1/keys/)
-      if($scope.etcdPath === '/v1/keys/') {
-        $scope.enableBack = false;
-      } else {
-        $scope.enableBack = true;
+    function pathKey(path) {
+      var parts = path.split(keyPrefix);
+      if (parts.length === 1) {
+        return '';
       }
+      return parts[1];
+    }
+
+    if ($scope.writingNew === false) {
+      // Notify everyone of the update
+      localStorage.setItem('etcdPath', $scope.etcdPath);
+      $scope.enableBack = true;
+      //disable back button if at root (/v1/keys/)
+      if($scope.etcdPath === '') {
+        $scope.enableBack = false;
+      }
+
+      $scope.key = EtcdV1.getKey(etcdPathKey($scope.etcdPath));
     }
   });
 
-  //make requests
-  function read() {
-    EtcdV1.keys.one('leader').get().then(function(data) {
-    $http.get('http://localhost:4001' + $scope.etcdPath).success(function(data) {
+  $scope.$watch('key', function() {
+    $scope.key.get().then(function(data) {
       //hide any errors
       $('#etcd-browse-error').hide();
-      //swap this out with better logic later
-      if(data.length) {
+      // Looking at a directory if we got an array
+      if (data.length) {
         $scope.list = data;
         $scope.preview = 'etcd-preview-hide';
       } else {
         $scope.singleValue = data.value;
         $scope.preview = 'etcd-preview-reveal';
-        $http.get('http://localhost:4001' + $scope.etcdParentPath).success(function(data) {
+        $scope.key.getParent().get().then(function(data) {
           $scope.list = data;
         });
       }
       $scope.previewMessage = 'No key selected.';
-    }).error(function (data, status, headers, config) {
+    }, function(response) {
       $scope.previewMessage = 'Key does not exist.';
-      $http.get('http://localhost:4001' + $scope.etcdParentPath).success(function(data) {
-        $scope.list = data;
-      });
-      //show errors
-      $scope.showBrowseError(data.message);
-    });
-  }
+      $scope.showBrowseError(response.data.message);
+    })
+  });
 
   //back button click
   $scope.back = function() {
-    var path = $scope.etcdPath.split('/');
-    var pathLength = path.length;
-    var newPath;
-    //empty strings that used to be /
-    path = path.filter(function(v){return v!=='';});
-    //remove last item
-    path.pop();
-    //reconstruct path
-    newPath = path.join('/');
-    //record new path if it doesn't back up too much
-    if(newPath !== 'v1') {
-      $scope.etcdPath = '/' + newPath + '/';
-    }
-    $location.path($scope.etcdPath);
+    $scope.etcdPath = $scope.key.getParent().path();
     $scope.preview = 'etcd-preview-hide';
     $scope.writingNew = false;
   };
@@ -187,7 +162,7 @@ angular.module('etcdApp', ['ngRoute', 'etcd', 'timeRelative'])
 
 }])
 
-.module('etcdApp').directive('ngEnter', function() {
+.directive('ngEnter', function() {
   return function(scope, element, attrs) {
     element.bind('keydown keypress', function(event) {
       if(event.which === 13) {
@@ -201,7 +176,7 @@ angular.module('etcdApp', ['ngRoute', 'etcd', 'timeRelative'])
   };
 })
 
-.module('etcdApp').directive('highlight', ['$location', function() {
+.directive('highlight', ['$location', function() {
   return {
     restrict: 'A',
     link: function(scope, element, attrs) {
