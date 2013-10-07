@@ -15,6 +15,11 @@ module.exports = function (grunt) {
 
     grunt.initConfig({
         // configurable paths
+        uglify: {
+          options: {
+            mangle: false
+          },
+        },
         yeoman: {
             app: 'app',
             dist: 'dist'
@@ -181,11 +186,7 @@ module.exports = function (grunt) {
             options: {
                 dest: '<%= yeoman.dist %>'
             },
-            html: [
-              '<%= yeoman.app %>/browser.html',
-              '<%= yeoman.app %>/stats.html',
-              '<%= yeoman.app %>/index.html'
-           ]
+            html: ['<%= yeoman.app %>/**/*.html']
         },
         usemin: {
             options: {
@@ -264,6 +265,7 @@ module.exports = function (grunt) {
                         '.htaccess',
                         'images/{,*/}*.{webp,gif}',
                         'styles/fonts/{,*/}*.*',
+                        'views/*.*',
                         'bower_components/sass-bootstrap/fonts/*.*'
                     ]
                 }]
