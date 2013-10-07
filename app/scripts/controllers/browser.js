@@ -40,20 +40,21 @@ angular.module('etcdApp', ['ngRoute', 'etcd', 'timeRelative'])
       return parts[1];
     }
 
-    if ($scope.writingNew === false) {
-      // Notify everyone of the update
-      localStorage.setItem('etcdPath', $scope.etcdPath);
-      $scope.enableBack = true;
-      //disable back button if at root (/v1/keys/)
-      if($scope.etcdPath === '') {
-        $scope.enableBack = false;
-      }
-
-      $scope.key = EtcdV1.getKey(etcdPathKey($scope.etcdPath));
+    // Notify everyone of the update
+    localStorage.setItem('etcdPath', $scope.etcdPath);
+    $scope.enableBack = true;
+    //disable back button if at root (/v1/keys/)
+    if($scope.etcdPath === '') {
+      $scope.enableBack = false;
     }
+
+    $scope.key = EtcdV1.getKey(etcdPathKey($scope.etcdPath));
   });
 
   $scope.$watch('key', function() {
+    if ($scope.writingNew === true) {
+      return
+    }
     $scope.key.get().success(function (data, status, headers, config) {
       //hide any errors
       $('#etcd-browse-error').hide();
@@ -92,22 +93,18 @@ angular.module('etcdApp', ['ngRoute', 'etcd', 'timeRelative'])
   };
 
   $scope.saveData = function() {
-    //TODO: add loader
-    $scope.key.set($scope.singleValue).success(function (data, status, headers, config) {
-      //TODO: remove loader
+    // TODO: fixup etcd to allow for empty values
+    $scope.key.set($scope.singleValue || ' ').success(function (data, status, headers, config) {
       $scope.save = 'etcd-save-hide';
       $scope.preview = 'etcd-preview-hide';
       $scope.back();
       $scope.writingNew = false;
     }).error(function (data, status, headers, config) {
-      //TODO: remove loader
-      //show errors
       $scope.showSaveError(data.message);
     });
   };
 
   $scope.deleteKey = function() {
-    //TODO: add loader
     $scope.key.deleteKey().success(function (data, status, headers, config) {
       //TODO: remove loader
       $scope.save = 'etcd-save-hide';
