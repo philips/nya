@@ -57,7 +57,7 @@ angular.module('etcdApp', ['ngRoute', 'etcd', 'timeRelative'])
   });
 
   $scope.$watch('key', function() {
-    $scope.key.get().then(function(data) {
+    $scope.key.get().success(function (data, status, headers, config) {
       //hide any errors
       $('#etcd-browse-error').hide();
       // Looking at a directory if we got an array
@@ -67,20 +67,21 @@ angular.module('etcdApp', ['ngRoute', 'etcd', 'timeRelative'])
       } else {
         $scope.singleValue = data.value;
         $scope.preview = 'etcd-preview-reveal';
-        $scope.key.getParent().get().then(function(data) {
+        $scope.key.getParent().get().success(function(data) {
           $scope.list = data;
         });
       }
       $scope.previewMessage = 'No key selected.';
-    }, function(response) {
+    }).error(function (data, status, headers, config) {
       $scope.previewMessage = 'Key does not exist.';
       $scope.showBrowseError(response.data.message);
-    })
+    });
   });
 
   //back button click
   $scope.back = function() {
     $scope.etcdPath = $scope.key.getParent().path();
+    $scope.syncLocation();
     $scope.preview = 'etcd-preview-hide';
     $scope.writingNew = false;
   };
@@ -95,13 +96,7 @@ angular.module('etcdApp', ['ngRoute', 'etcd', 'timeRelative'])
 
   $scope.saveData = function() {
     //TODO: add loader
-    $http({
-      url: 'http://localhost:4001' + $scope.etcdPath,
-      method: 'POST',
-      //data: 'value=' + $scope.singleValue,
-      data: $.param({value: $scope.singleValue}),
-      headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-    }).success(function (data, status, headers, config) {
+    $scope.key.set($scope.singleValue).success(function (data, status, headers, config) {
       //TODO: remove loader
       $scope.save = 'etcd-save-hide';
       $scope.preview = 'etcd-preview-hide';
@@ -116,11 +111,7 @@ angular.module('etcdApp', ['ngRoute', 'etcd', 'timeRelative'])
 
   $scope.deleteKey = function() {
     //TODO: add loader
-    $http({
-      url: 'http://localhost:4001' + $scope.etcdPath,
-      method: 'DELETE',
-      headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-    }).success(function (data, status, headers, config) {
+    $scope.key.deleteKey().success(function (data, status, headers, config) {
       //TODO: remove loader
       $scope.save = 'etcd-save-hide';
       $scope.preview = 'etcd-preview-hide';

@@ -21,7 +21,7 @@ angular.module('etcdStatsDashboard', ['ngRoute', 'etcd'])
 
   //make requests
   function readStats() {
-    EtcdV1.stats.one('leader').get().then(function(data) {
+    EtcdV1.getStat('leader').get().success(function(data) {
       $scope.leaderStats = data;
       $scope.followers = [];
       $.each(data.followers, function(index, value) {
