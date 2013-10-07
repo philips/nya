@@ -7,9 +7,6 @@ angular.module('etcdApp', ['ngRoute', 'etcd', 'timeRelative'])
 .config(['$routeProvider', 'keyPrefix', function ($routeProvider, keyPrefix) {
   //read localstorage
   var previousPath = localStorage.getItem('etcd_path');
-  if(previousPath !== null && previousPath.indexOf(keyPrefix) !== -1) {
-    redirectPath = previousPath;
-  }
 
   $routeProvider
     .when('/', {
@@ -74,7 +71,7 @@ angular.module('etcdApp', ['ngRoute', 'etcd', 'timeRelative'])
       $scope.previewMessage = 'No key selected.';
     }).error(function (data, status, headers, config) {
       $scope.previewMessage = 'Key does not exist.';
-      $scope.showBrowseError(response.data.message);
+      $scope.showBrowseError(data.message);
     });
   });
 
