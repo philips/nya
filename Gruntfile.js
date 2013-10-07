@@ -1,4 +1,4 @@
-// Generated on 2013-09-05 using generator-angular 0.4.0
+// Generated on 2013-10-07 using generator-angular 0.4.0
 'use strict';
 var LIVERELOAD_PORT = 35729;
 var lrSnippet = require('connect-livereload')({ port: LIVERELOAD_PORT });
@@ -344,8 +344,11 @@ module.exports = function (grunt) {
     'useminPrepare',
     'concurrent:dist',
     'autoprefixer',
+    'concat',
     'copy:dist',
+    'cdnify',
     'ngmin',
+    'cssmin',
     'uglify',
     'rev',
     'usemin'

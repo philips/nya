@@ -161,7 +161,7 @@ angular.module('etcdApp', ['ngRoute', 'etcd', 'timeRelative'])
   };
 })
 
-.directive('highlight', ['$location', function() {
+.directive('highlight', function() {
   return {
     restrict: 'A',
     link: function(scope, element, attrs) {
@@ -170,7 +170,7 @@ angular.module('etcdApp', ['ngRoute', 'etcd', 'timeRelative'])
       }
     }
   };
-}]);
+});
 
 moment.lang('en', {
   relativeTime : {
